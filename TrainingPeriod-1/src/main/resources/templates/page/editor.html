@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <title>Markdown Editor</title>
+  <meta charset="UTF-8">
+  <link rel="icon" href="data:,">
+  <link href="/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/lib/codemirror/codemirror.min.css" rel="stylesheet">
+  <link href="/lib/codemirror/theme/monokai.min.css" rel="stylesheet">
+</head>
+
+<body>
+  <div class="container-fluid">
+    <div class="row mt-3">
+      <div class="col-12">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h1>編集: <span th:text="${filename}"></span></h1>
+          <div>
+            <button id="saveBtn" class="btn btn-primary">保存</button>
+            <a href="/" class="btn btn-secondary">back</a>
+          </div>
+        </div>
+        <textarea id="editor" th:text="${content}"></textarea>
+      </div>
+    </div>
+  </div>
+
+  <script src="/lib/codemirror/codemirror.min.js"></script>
+  <script src="/lib/codemirror/mode/markdown/markdown.min.js"></script>
+  <script>
+    // エディター初期化
+    var editor = CodeMirror.fromTextArea(document.getElementById("editor"), {
+      mode: 'markdown',
+      theme: 'monokai',
+      lineNumbers: true,
+      lineWrapping: true,
+      height: "auto"
+    });
+    editor.setSize("100%", "600px");
+
+    // セーブ機能
+    document.getElementById("saveBtn").addEventListener("click", function () {
+      var content = editor.getValue();
+      var filename = document.querySelector("h1 span").textContent;
+
+      fetch("/save", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: "filename=" + encodeURIComponent(filename) +
+          "&content=" + encodeURIComponent(content)
+      })
+        .then(response => response.text())
+        .then(result => {
+          alert(result);
+        })
+        .catch(error => {
+          alert("保存失敗：" + error);
+        });
+    });
+  </script>
+</body>
+
+</html>

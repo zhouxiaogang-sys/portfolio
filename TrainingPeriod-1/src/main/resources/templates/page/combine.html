@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="/css/bootstrap.min.css">
+  <link rel="stylesheet" th:href="@{/css/combine.css}">
+  <!--link rel="stylesheet" href="/css/github-markdown.min.css"-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/markdown-it/12.3.2/markdown-it.min.css">
+  <title>手順書</title>
+  <style>
+
+  </style>
+</head>
+
+<body>
+  <div class="layout">
+    <div class="sidebar">
+      <div class="task-section">
+        <div class="task-header task-A" onclick="toggleSection(this)">
+          <i class="ms-Icon ms-Icon--Document"></i>
+          <span>A課題</span>
+        </div>
+        <div class="task-content">
+          <div th:each="doc : ${markdowns}" th:if="${doc.task == 'A'}">
+            <a class="content-link" th:data-file-id="${doc.fileId}" th:text="${doc.fileName}"
+              onclick="loadContent(this.getAttribute('data-file-id')); return false;">
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="task-section">
+        <div class="task-header task-B" onclick="toggleSection(this)">
+          <i class="ms-Icon ms-Icon--Document"></i>
+          <span>B課題</span>
+        </div>
+        <div class="task-content">
+          <div th:each="doc : ${markdowns}" th:if="${doc.task == 'B'}">
+            <a class="content-link" th:data-file-id="${doc.fileId}" th:text="${doc.fileName}"
+              onclick="loadContent(this.getAttribute('data-file-id')); return false;">
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="task-section">
+        <div class="task-header task-Spring" onclick="toggleSection(this)">
+          <i class="ms-Icon ms-Icon--Document"></i>
+          <span>SpringBoot課題</span>
+        </div>
+        <div class="task-content">
+          <div th:each="doc : ${markdowns}" th:if="${doc.task == 'SpringBoot'}">
+            <a class="content-link" th:data-file-id="${doc.fileId}" th:text="${doc.fileName}"
+              onclick="loadContent(this.getAttribute('data-file-id')); return false;">
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="main-content">
+      <div class="markdown-container">
+        <div id="content" th:fragment="content" th:utext="${content}">トップ</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function toggleSection(element) {
+      const content = element.nextElementSibling;
+      content.style.display = content.style.display === 'none' ? 'block' : 'none';
+    }
+
+    function loadContent(fileId) {
+      fetch(`/${fileId}`, {
+        headers: {
+          'X-Requested-With': 'XMLHttpRequest'
+        }
+      })
+        .then(response => response.text())
+        .then(html => {
+          document.getElementById('content').innerHTML = html;
+        })
+        .catch(error => console.error('Error:', error));
+    }
+  </script>
+</body>
+
+</html>
