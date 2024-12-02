@@ -3,10 +3,10 @@
 
 <head>
   <meta charset="UTF-8">
-  <link rel="stylesheet" href="/css/bootstrap.min.css">
+  <!--link rel="stylesheet" href="/css/bootstrap.min.css"-->
   <link rel="stylesheet" th:href="@{/css/combine.css}">
   <!--link rel="stylesheet" href="/css/github-markdown.min.css"-->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/markdown-it/12.3.2/markdown-it.min.css">
+  <link rel="stylesheet" href="@{/css/markdown-webstorm.css}">
   <title>手順書</title>
   <style>
 
@@ -66,6 +66,8 @@
     </div>
   </div>
 
+  <button class="back-to-top">トップ</button>
+
   <script>
     function toggleSection(element) {
       const content = element.nextElementSibling;
@@ -84,6 +86,29 @@
         })
         .catch(error => console.error('Error:', error));
     }
+
+    //back to topボタン
+    const backToTopButton = document.querySelector('.back-to-top');
+    const mainContent = document.querySelector('.main-content')
+
+    mainContent.addEventListener('scroll', () => {
+      
+      const scrollPosition = document.querySelector('.main-content').scrollTop;
+
+      if (scrollPosition > 100) {
+        backToTopButton.classList.add('visible');
+      } else {
+        backToTopButton.classList.remove('visible');
+      }
+    });
+
+
+    backToTopButton.addEventListener('click', () => {
+       document.querySelector('.main-content').scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    });
   </script>
 </body>
 
