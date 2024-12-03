@@ -4,12 +4,15 @@
 
 ### 手順1. MySQLログイン
 MySQLにログインする。
+>![pre-1](/images/mysql/section4/pre-1.jpg)
 
 ### 手順2. データベース作成
 以下のコマンドでデータベースを作成：
 ```sql
 CREATE DATABASE kadaidb CHARACTER SET sjis;
 ```
+>![pre-2](/images/mysql/section4/pre-2.jpg)
+
 
 > 注意点：
 > - 半角スペース、セミコロン(;)の入力に注意
@@ -28,6 +31,8 @@ CREATE DATABASE shimizudb CHARACTER SET sjis;
 USE kadaidb;
 ```
 > 注：作成した自身のデータベースを使用すること
+>![pre-3](/images/mysql/section4/pre-3.jpg)
+
 
 ### 動作確認
 
@@ -41,11 +46,15 @@ CREATE TABLE TESTTABLE1 (
     PRIMARY KEY (TESTNO)
 );
 ```
+>![pre-4](/images/mysql/section4/pre-4.jpg)
+
 
 #### 確認2. テーブル確認
 ```sql
 SHOW TABLES;
 ```
+>![pre-5](/images/mysql/section4/pre-5.jpg)
+
 
 ## 次のステップ
 文字コードの設定編に進んでください。

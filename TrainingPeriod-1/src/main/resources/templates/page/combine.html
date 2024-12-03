@@ -4,10 +4,11 @@
 <head>
   <meta charset="UTF-8">
   <!--link rel="stylesheet" href="/css/bootstrap.min.css"-->
-  <link rel="stylesheet" th:href="@{/css/combine.css}">
   <!--link rel="stylesheet" href="/css/github-markdown.min.css"-->
-  <link rel="stylesheet" href="@{/css/markdown-webstorm.css}">
-  <title>手順書</title>
+  <link rel="stylesheet" th:href="@{/css/markdown-webstorm.css}">
+  <link rel="stylesheet" th:href="@{/css/combine.css}">
+
+  <title>研修期間各手順書</title>
   <style>
 
   </style>
@@ -61,7 +62,9 @@
 
     <div class="main-content">
       <div class="markdown-container">
-        <div id="content" th:fragment="content" th:utext="${content}">トップ</div>
+        <div id="content" th:fragment="content" th:utext="${content}">
+          top
+        </div>
       </div>
     </div>
   </div>
@@ -92,7 +95,7 @@
     const mainContent = document.querySelector('.main-content')
 
     mainContent.addEventListener('scroll', () => {
-      
+
       const scrollPosition = document.querySelector('.main-content').scrollTop;
 
       if (scrollPosition > 100) {
@@ -104,11 +107,24 @@
 
 
     backToTopButton.addEventListener('click', () => {
-       document.querySelector('.main-content').scrollTo({
+      document.querySelector('.main-content').scrollTo({
         top: 0,
         behavior: 'smooth'
       });
     });
+
+    document.querySelectorAll('details').forEach(detail => {
+      detail.addEventListener('toggle', () => {
+        if (detail.open) {
+          const tables = detail.querySelectorAll('table');
+          tables.forEach(table => {
+            // 如果需要，重新应用类或触发样式更新
+            table.classList.add('styled-table');
+          });
+        }
+      });
+    });
+
   </script>
 </body>
 

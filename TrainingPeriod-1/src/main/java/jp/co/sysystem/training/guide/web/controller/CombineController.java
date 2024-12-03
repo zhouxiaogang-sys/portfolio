@@ -22,11 +22,11 @@ public class CombineController {
   public static final String COMBINE_PAGE = "page/combine";
 
   @GetMapping("/")
-  public String showMenu(Model model) {
+  public String showMenu(Model model) throws IOException {
     List<MarkdownFile> markdownList = combineService.showIndex();
 
     model.addAttribute("markdowns", markdownList);
-    model.addAttribute("content", "トップページへようこそ");
+    model.addAttribute("content", combineService.getHtmlContent("index"));
     return COMBINE_PAGE;
   }
 
