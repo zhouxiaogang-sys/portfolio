@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <title>Markdown Viewer</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" th:href="@{/css/viewer.css}">
+  <link href="/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/github-markdown.min.css">
+
+</head>
+
+<body>
+  <div class="container">
+
+    <article class="markdown-body" th:utext="${content}">
+    </article>
+  </div>
+  <button class="back-to-top">トップ</button>
+  <script>
+    const backToTopButton = document.querySelector('.back-to-top');
+
+    window.addEventListener('scroll', () => {
+
+      if (window.scrollY > 100) {
+        backToTopButton.classList.add('visible');
+      } else {
+        backToTopButton.classList.remove('visible');
+      }
+    });
+
+
+    backToTopButton.addEventListener('click', () => {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    });
+  </script>
+</body>
+
+</html>
