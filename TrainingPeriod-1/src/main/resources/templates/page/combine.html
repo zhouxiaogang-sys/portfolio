@@ -3,8 +3,7 @@
 
 <head>
   <meta charset="UTF-8">
-  <!--link rel="stylesheet" href="/css/bootstrap.min.css"-->
-  <!--link rel="stylesheet" href="/css/github-markdown.min.css"-->
+
   <link rel="stylesheet" th:href="@{/css/markdown-webstorm.css}">
   <link rel="stylesheet" th:href="@{/css/combine.css}">
 
@@ -61,6 +60,9 @@
     </div>
 
     <div class="main-content">
+      <div class="edit-button-container">
+        <button class="edit-button" onclick="goToEditor()">編集</button>
+      </div>
       <div class="markdown-container">
         <div id="content" th:fragment="content" th:utext="${content}">
           top
@@ -72,12 +74,15 @@
   <button class="back-to-top">トップ</button>
 
   <script>
+    let currentFileId = "";
+    
     function toggleSection(element) {
       const content = element.nextElementSibling;
       content.style.display = content.style.display === 'none' ? 'block' : 'none';
     }
 
     function loadContent(fileId) {
+      currentFileId = fileId;
       fetch(`/${fileId}`, {
         headers: {
           'X-Requested-With': 'XMLHttpRequest'
@@ -88,6 +93,12 @@
           document.getElementById('content').innerHTML = html;
         })
         .catch(error => console.error('Error:', error));
+    }
+
+    function goToEditor() {      
+      if (currentFileId) {
+        window.location.href = `/edit/${currentFileId}`;
+      }
     }
 
     //back to topボタン
@@ -113,17 +124,7 @@
       });
     });
 
-    document.querySelectorAll('details').forEach(detail => {
-      detail.addEventListener('toggle', () => {
-        if (detail.open) {
-          const tables = detail.querySelectorAll('table');
-          tables.forEach(table => {
-            // 如果需要，重新应用类或触发样式更新
-            table.classList.add('styled-table');
-          });
-        }
-      });
-    });
+    
 
   </script>
 </body>

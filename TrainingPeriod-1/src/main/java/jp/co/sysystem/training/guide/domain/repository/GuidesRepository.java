@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import jp.co.sysystem.training.guide.domain.table.MarkdownFile;
 
 @Repository
-public interface GuidesRepository extends CrudRepository<MarkdownFile, Integer> {
+public interface GuidesRepository extends CrudRepository<MarkdownFile, String> {
 
 }

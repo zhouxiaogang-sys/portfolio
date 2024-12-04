@@ -64,8 +64,7 @@ public class CombineService {
 
     Path filePath = Paths.get(MD_DIR + filename + ".md");
     String markdown = Files.readString(filePath);
-    System.out.println(renderer.render(parser.parse(markdown)));
-
+    
     return renderer.render(parser.parse(markdown));
   }
 

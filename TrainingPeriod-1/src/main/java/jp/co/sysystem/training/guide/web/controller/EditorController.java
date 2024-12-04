@@ -13,33 +13,29 @@ import java.util.List;
 @Controller
 public class EditorController {
 
-    @Autowired
-    private EditorService editorService;
+  @Autowired
+  private EditorService editorService;
 
-    @GetMapping("/edit")
-    public String index(Model model) {
-        List<String> files = editorService.listFiles();
-        model.addAttribute("files", files);
-        return "index";
-    }
+  @GetMapping("/edit/{fileId}")
+  public String edit(@PathVariable String fileId, Model model) {
+    String fullFileId = fileId + ".md";
+    String content = editorService.readFile(fullFileId);
+    String fileName = editorService.findNameById(fileId);
 
-    @GetMapping("/edit/{filename}")
-    public String edit(@PathVariable String filename, Model model) {
-        String content = editorService.readFile(filename);
-        model.addAttribute("filename", filename);
-        model.addAttribute("content", content);
-        return "page/editor";
-    }
+    model.addAttribute("fileName", fileName);
+    model.addAttribute("content", content);
+    return "page/editor";
+  }
 
-    @PostMapping("/save")
-    @ResponseBody
-    public ResponseEntity<String> save(@RequestParam String filename, 
-                                     @RequestParam String content) {
-        try {
-            editorService.saveFile(filename, content);
-            return ResponseEntity.ok("セーブ成功");
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body("セーブ失敗：" + e.getMessage());
-        }
+  @PostMapping("/save")
+  @ResponseBody
+  public ResponseEntity<String> save(@RequestParam String filename,
+          @RequestParam String content) {
+    try {
+      editorService.saveFile(filename, content);
+      return ResponseEntity.ok("セーブ成功");
+    } catch (Exception e) {
+      return ResponseEntity.badRequest().body("セーブ失敗：" + e.getMessage());
     }
+  }
 }

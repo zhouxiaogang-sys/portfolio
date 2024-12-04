@@ -15,7 +15,7 @@
     <div class="row mt-3">
       <div class="col-12">
         <div class="d-flex justify-content-between align-items-center mb-3">
-          <h1>編集: <span th:text="${filename}"></span></h1>
+          <h1>編集: <span th:text="${fileName}"></span></h1>
           <div>
             <button id="saveBtn" class="btn btn-primary">保存</button>
             <a href="/" class="btn btn-secondary">back</a>
@@ -49,7 +49,7 @@
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
         },
-        body: "filename=" + encodeURIComponent(filename) +
+        body: "fileId=" + encodeURIComponent(fileId) +
           "&content=" + encodeURIComponent(content)
       })
         .then(response => response.text())

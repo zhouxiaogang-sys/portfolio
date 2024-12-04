@@ -1,16 +1,24 @@
 package jp.co.sysystem.training.guide.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import jp.co.sysystem.training.guide.domain.repository.GuidesRepository;
+import jp.co.sysystem.training.guide.domain.table.MarkdownFile;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 public class EditorService {
+  
+  @Autowired
+  GuidesRepository grep;
 
     // mdファイルが保存されるディレクトリのパス
     private static final String MD_DIR = "src/main/resources/markdown/";
@@ -28,6 +36,12 @@ public class EditorService {
         } catch (IOException e) {
             throw new RuntimeException("ディレクトリ作成失敗", e);
         }
+    }
+    
+    public String findNameById(String fileId) {
+      Optional<MarkdownFile> optionalFile = grep.findById(fileId);
+      String fileName = optionalFile.map(MarkdownFile::getFileName).orElse(null);
+      return fileName;
     }
 
     /**

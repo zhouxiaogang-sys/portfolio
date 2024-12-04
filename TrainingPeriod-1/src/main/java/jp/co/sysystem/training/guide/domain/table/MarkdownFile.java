@@ -16,11 +16,13 @@ import lombok.Data;
 public class MarkdownFile implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    
+    private int fileNo;
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int fileNo;
-
     private String fileId;
+    
     private String fileName;
     private String task;
     private int sortOrder;

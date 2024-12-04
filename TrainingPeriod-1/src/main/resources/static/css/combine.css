@@ -107,7 +107,7 @@ html {
 
 .markdown-container img {
     max-width: 85%;
-    height: auto;  /* 保持宽高比 */
+    height: auto; 
 }
 
 .title {
@@ -146,12 +146,35 @@ html {
   visibility: visible;
 }
 
-/* 表格容器样式 */
+.edit-button-container {
+  position: sticky;
+  top: 5px;
+  right: 10px;
+  display: flex;
+  justify-content: flex-end;
+  padding: 10px;
+  z-index: 1000;
+}
+
+.edit-button {
+  padding: 8px 16px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.edit-button:hover {
+  background-color: #0056b3;
+}
+
 .table-container {
-  overflow-x: auto; /* 让表格在小屏设备上可以滚动 */
+  overflow-x: auto; 
   margin: 20px 0;
-  border-radius: 8px; /* 圆角 */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 轻微阴影 */
+  border-radius: 8px; 
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
 }
 
 
