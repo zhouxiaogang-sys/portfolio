@@ -15,26 +15,26 @@
 # 🚀 EclipseでのSpring Boot環境構築ガイド
 
 ## 📋 目次
-- [🚀 EclipseでのSpring Boot環境構築ガイド](#-eclipseでのspring-boot環境構築ガイド)
-- [💻 前提条件](#prerequisites)
-   - [📥 必要なファイル](#required-files)
-- [🛠 環境構築](#environment-setup)
-   - [📦 Pleiadesのインストール](#pleiades-installation)
-   - [⚙️ Java互換性設定](#java-compatibility)
-   - [🔍 Checkstyle設定](#checkstyle-setup)
-   - [📝 フォーマッター設定](#formatter-setup)
-   - [🔌 プラグイン設定](#plugin-setup)
-- [📂 プロジェクト設定](#project-setup)
-   - [🗃 DB環境構築](#db-setup)
-   - [📥 プロジェクトのインポート](#project-import)   
-   - [⚙️ 設定ファイルの更新](#config-file-update)
-   - [💡 プロジェクト更新](#project-update)
-   - [🚀 アプリケーションの実行](#application-execution)
+- [EclipseでのSpring Boot環境構築ガイド](#-eclipseでのspring-boot環境構築ガイド)
+- [前提条件](#prerequisites)
+   - [必要なファイル](#required-files)
+- [環境構築](#environment-setup)
+   - [Pleiadesのインストール](#pleiades-installation)
+   - [Java互換性設定](#java-compatibility)
+   - [Checkstyle設定](#checkstyle-setup)
+   - [フォーマッター設定](#formatter-setup)
+   - [プラグイン設定](#plugin-setup)
+- [プロジェクト設定](#project-setup)
+   - [DB環境構築](#db-setup)
+   - [プロジェクトのインポート](#project-import)   
+   - [設定ファイルの更新](#config-file-update)
+   - [プロジェクト更新](#project-update)
+   - [アプリケーションの実行](#application-execution)
   
 
-<h2 id="prerequisites"> 💻 前提条件 </h2>
+<h2 id="prerequisites"> 前提条件 </h2>
 
-<h3 id="required-files"> 📥 必要なファイル</h3>
+<h3 id="required-files"> 必要なファイル</h3>
 
 以下のファイルをご用意ください：
 - [pleiades-2023](https://syshd01-my.sharepoint.com/:u:/g/personal/public_git_syshd01_onmicrosoft_com/EYPtiJ1x3U5MhJnm4PXdYo8Bm5cZsLPNfQm445TAzV-lSg?e=xNzgQJ)
@@ -44,9 +44,9 @@
 
 <br>
 
-<h2 id="environment-setup"> 🛠 環境構築 </h2>
+<h2 id="environment-setup"> 環境構築 </h2>
 
-<h3 id="pleiades-installation"> 📦 Pleiadesのインストール </h3>
+<h3 id="pleiades-installation"> Pleiadesのインストール </h3>
 
 <span class="tips">
 
@@ -70,7 +70,7 @@
 
 <br>
 
-<h3 id="java-compatibility"> ⚙️ Java互換性設定 </h3>
+<h3 id="java-compatibility">  Java互換性設定 </h3>
 
 1. 『ウインドウ』→『設定』を開きます
    > ![set](../images/Spring/set1.jpg)
@@ -89,7 +89,7 @@
 
 <br>
 
-<h3 id="checkstyle-setup"> 🔍 Checkstyle設定 </h3>
+<h3 id="checkstyle-setup"> Checkstyle設定 </h3>
 
 1. 『ウインドウ』→『設定』を開きます
 2. 設定手順：
@@ -106,7 +106,7 @@
 
 <br>
 
-<h3 id="formatter-setup"> 📝 フォーマッター設定 </h3>
+<h3 id="formatter-setup"> フォーマッター設定 </h3>
 
 1. CSSファイル設定：
     - 『Web』→『CSSファイル』→『エディター』を選択
@@ -123,20 +123,43 @@
 <br>
 
 <h3 id="plugin-setup"> 🔌 プラグイン設定 </h3>
+
 1. 『ヘルプ』→『Eclipseマーケットプレイス』を開きます
-    > ![market](../image/market.jpg)
+    > ![market](../images/Spring/market.jpg)
 2. 検索欄に「editorconfig」を入力
 3. 『Go』ボタンを押下
 4. ネズミマークのプラグインをインストールする
-    > ![editorconfig](../image/editorconfig.jpg)
+    > ![editorconfig](../images/Spring/editorconfig.jpg)
 
-<h2 id="project-setup"> 📂 プロジェクト設定 </h2>
+<h2 id="project-setup"> プロジェクト設定 </h2>
 
-<h3 id="db-setup"> 🗃 DB環境構築 </h3>
+<h3 id="db-setup"> DB環境構築 </h3>
 
 1. 「workout」データベースを作成してください
 
 2. テーブル作成：
+
+   - 以下のSQL文を実行することで、以下に示すテーブルを生成できます。
+  必要に応じて、SQL文をコピーしてデータベースで実行してください。
+   ```mysql
+   CREATE DATABASE workout;
+
+   use workout;
+
+   CREATE TABLE USER(
+   ID VARCHAR(5) PRIMARY KEY,
+   PASS VARCHAR(8),
+   NAME VARCHAR(40),
+   KANA VARCHAR(40)
+   );
+
+   CREATE TABLE USERDETAIL(
+   NO INT(5) PRIMARY KEY,
+   ID VARCHAR(5),
+   BIRTH DATE,
+   CLUB VARCHAR(40)
+   );
+   ```
 
    <details>
    <summary>📋 ユーザーマスタ (USER)</summary>
@@ -164,6 +187,64 @@
 
 3. 初期データ登録：
 
+   - 以下のSQL文を実行することで、指定されたテーブルにデータを挿入できます。
+    必要に応じて、SQL文をコピーしてデータベースで実行してください。
+
+   ```mysql
+   INSERT USER VALUES
+	   ('admin', 'admin', '管理者', 'ｶﾝﾘｼｬ')
+   ,	('1', '1', '１', 'ﾃｽﾄﾜﾝ')
+   ,	('test2', 'test2', 'てす', 'ﾃｽﾄﾂｰ')
+   ,	('test3', 'test3', 'てすと', 'ﾃｽﾄｽﾘｰ')
+   ,	('test4', 'test4', 'てすとて', 'ﾃｽﾄﾌｫｰ')
+   ,	('yasui', 'yasui', '安井安井安', 'ﾔｽｲ')
+   ,	('igaki', 'igaki', '井垣井垣井垣', 'ｲｶﾞｷ')
+   ,	('711', 'seven007', 'セブンセブンせ', 'ｾﾌﾞﾝ')
+   ,	('seya', 'seya0008', '瀬谷瀬谷瀬谷瀬谷', 'ｾﾔ')
+   ,	('39', 'thankyou', '有賀有賀有賀有賀有', 'ｱﾘｶﾞ')
+   ,	('4test', '4test', 'てすとててすとててす', 'ﾌｫｰﾃｽﾄ')
+   ,	('3test', '3test', 'てすとててすとててすと', 'ｽﾘｰﾃｽﾄ')
+   ,	('2test', '2test', 'てすとてすてすとてすてす', 'ﾂｰﾃｽﾄ')
+   ,	('1test', '1test', 'てすとてすてすとてすてすと', 'ﾜﾝﾃｽﾄ')
+   ,	('guest', 'guest', '客アカウント客アカウント客ア', 'ｷｬｸｱｶｳﾝﾄ')
+   ,	('sirai', 'sirai', '白井白井白井白井白井白井白井白', 'ｼﾗｲ')
+   ,	('umino', 'umino', '海野海野海野海野海野海野海野海野', 'ｳﾐﾉ')
+   ,	('ueda', 'ueda', '上田上田上田上田上田上田上田上田上田', 'ｳｴﾀﾞ')
+   ,	('imai', 'allmax', '今井今井今井今井今井今井今井今井今井今井今井今井今井今井今井今井今井今井今井今井', 'ｲﾏｲｲﾏｲｲﾏｲﾏｲﾏｲｲﾏｲｲﾏｲﾏｲﾏｲｲﾏｲｲﾏｲﾏｲﾏｲｲﾏｲｲﾏｲﾏ')
+   ,	('ozawa', 'allofmax', '小沢小沢小沢小沢小沢小沢小沢小沢小沢小沢小沢小沢小沢小沢小沢小沢小沢小沢小沢小沢', 'ｵｻﾞﾜｵｻﾞﾜｵｻﾞﾜｵｻﾞﾜｵｻﾞﾜｵｻﾞﾜｵｻﾞﾜｵｻﾞﾜｵｻﾞﾜｵｻﾞﾜ')
+   ,	('tada', 'namemax', '多田多田多田多田多田多田多田多田多田多田多田多田多田多田多田多田多田多田多田多田', 'ﾀﾀﾞ')
+   ,	('max', 'kanamax', '菅', 'ｽｶﾞｽｶﾞｽｶﾞｽｶﾞｽｶﾞｽｶﾞｽｶﾞｽｶﾞｽｶﾞｽｶﾞｽｶﾞｽｶﾞｽｶｽｶ')
+   ;
+
+   INSERT USERDETAIL VALUES
+	   (99999, 'admin', '1990-01-06', 'SY委員会')
+   ,	(00001, '1', '2020-06-01', '個人資格取得委員会')
+   ,	(00002, 'test2', '2020-06-02', '書棚管理委員会')
+   ,	(00003, 'test3', '2020-06-03', '美化管理委員会')
+   ,	(00004, 'test4', '2020-05-04', '防災委員会')
+   ,	(00005, 'yasui', '1994-04-04', 'モラル委員会')
+   ,	(00006, 'igaki', '1996-01-04', '広報委員会')
+   ,	(00007, '711', '1993-06-04', 'グループウェア委員会')
+   ,	(00008, 'seya', '1997-06-24', '査定改善委員会')
+   ,	(00009, '39', '1994-12-04', '安全衛生委員会')
+   ,	(00010, '4test', '1998-03-04', '実践研修委員会')
+   ,	(00011, '3test', '1992-06-14', '日本語能力向上委員会')
+   ,	(00012, '2test', '1993-07-14', '親睦会委員会')
+   ,	(00013, '1test', '1995-05-05', '人材開発委員会')
+   ,	(00014, 'guest', '1994-09-06', 'SYの歴史と文化編集委員会')
+   ,	(00015, 'sirai', '1989-06-12', '情報セキュリティ委員会')
+   ,	(00016, 'umino', '1995-04-07', '国際交流委員会')
+   ,	(00017, 'ueda', '1991-09-23', '外国籍社員サポート委員会')
+   ,	(00018, 'imai', '1997-02-28', '外国籍社員サポート委員会')
+   ,	(00019, 'ozawa', '1998-01-04', '査定改善委員会')
+   ,	(00020, 'tada', '2001-05-24', '日本語能力向上委員会')
+   ,	(00021, 'max', '2000-06-16', '個人資格取得委員会')
+   ;
+
+   commit;
+
+   ```
+   
    <details>
    <summary>📊 USERテーブル</summary>
 
@@ -188,7 +269,7 @@
 
 </details>
 
-<h3 id="project-import"> 📥 プロジェクトのインポート </h3>
+<h3 id="project-import"> プロジェクトのインポート </h3>
 
 1. `spring-workout.zip`を解凍し、指定した`workspace`に移動します
 2. 『ファイル』→『インポート』を選択
@@ -206,7 +287,7 @@
 
    > ![import4](../images/Spring/import-4.jpg)
 
-<h3 id="config-file-update"> ⚙️ 設定ファイルの更新 </h3>
+<h3 id="config-file-update">  設定ファイルの更新 </h3>
 
 1. ワークスペースから`pom.xml`をダブルクリック
    > ![pom](../images/Spring/pom-xml.jpg)
@@ -233,15 +314,15 @@
 </properties>
 ```
 
-<h3 id="project-update"> 💡 プロジェクト更新 </h3>
+<h3 id="project-update"> プロジェクト更新 </h3>
 
 1. 「ファイル」->「Maven」->「プロジェクトの更新」
    > ![mavenUpdate1](../images/Spring/mavenUpdate1.jpg)
 
 2. 使用可能なMavenコードベースを確認、『OK』ボタンをクリック。
-   > ![maveUpdate2](../images/Spring/update2.jpg)
+   > ![mavenUpdate2](../images/Spring/update2.jpg)
 
-<h3 id="application-execution"> 🚀 アプリケーションの実行 </h3>
+<h3 id="application-execution"> アプリケーションの実行 </h3>
 
 1. アプリケーションの起動：
     - 『起動構成』→『Spring Boot アプリケーション』→『spring-workout』を右クリック
