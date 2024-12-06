@@ -32,6 +32,11 @@ public class EditorController {
   @ResponseBody
   public ResponseEntity<String> save(@RequestParam String fileId,
           @RequestParam String content) {
+    
+    if (fileId == null || fileId.trim().isEmpty()) {
+      return null;
+    }
+    
     try {
       editorService.saveFile(fileId, content);
       return ResponseEntity.ok("セーブ成功");
