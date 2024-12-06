@@ -1,3 +1,10 @@
+<style>
+    span.tips {
+    color: red;
+    font-size: 14px;
+  }
+</style>
+
 # MySQL インストール手順
 
 ## time_zone設定編
@@ -33,7 +40,7 @@ USE mysql
 ```
 >![tz-6](/images/mysql/section6/timezone-6.jpg)
 
-※ここは自身のデータベースではないので注意！！！
+<span class="tips">※ここは自身のデータベースではないので注意！！！</span>
 
 ### 手順6
 エディタで開いたSQLをコピーし、コマンドプロンプトに貼り付ける。
@@ -101,4 +108,4 @@ show variables like '%time_zone%';
 >![tz-21](/images/mysql/section6/timezone-21.jpg)
 
 
-引き続き、B課題2-2を行う。
+次は、B課題2-2を行う。

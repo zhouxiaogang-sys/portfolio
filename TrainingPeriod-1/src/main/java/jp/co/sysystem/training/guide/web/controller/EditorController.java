@@ -22,6 +22,7 @@ public class EditorController {
     String content = editorService.readFile(fullFileId);
     String fileName = editorService.findNameById(fileId);
 
+    model.addAttribute("fileId", fileId);
     model.addAttribute("fileName", fileName);
     model.addAttribute("content", content);
     return "page/editor";
@@ -29,10 +30,10 @@ public class EditorController {
 
   @PostMapping("/save")
   @ResponseBody
-  public ResponseEntity<String> save(@RequestParam String filename,
+  public ResponseEntity<String> save(@RequestParam String fileId,
           @RequestParam String content) {
     try {
-      editorService.saveFile(filename, content);
+      editorService.saveFile(fileId, content);
       return ResponseEntity.ok("セーブ成功");
     } catch (Exception e) {
       return ResponseEntity.badRequest().body("セーブ失敗：" + e.getMessage());
