@@ -8,22 +8,22 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import jp.co.sysystem.training.guide.domain.table.MarkdownFile;
-import jp.co.sysystem.training.guide.service.IndexService;
+import jp.co.sysystem.training.guide.service.HomepageService;
 
-//@Controller
-public class IndexController {
+@Controller
+public class ManagementController {
   
-  public static final String MENU_PAGE = "page/indexMenu";
+  public static final String MANAGEMENT_PAGE = "page/management";
   
   @Autowired
-  private IndexService indexService;
+  private HomepageService homepageService;
   
-  @GetMapping("/")
+  @GetMapping("/management")
   public String showMenu(Model model) {
-    List<MarkdownFile>markdownList = indexService.showIndex();
+    List<MarkdownFile>markdownList = homepageService.showIndex();
     
     model.addAttribute("markdowns", markdownList);
-    return MENU_PAGE;
+    return MANAGEMENT_PAGE;
   }
 
 }
