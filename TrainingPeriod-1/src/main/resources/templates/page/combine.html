@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
 
   <link rel="stylesheet" th:href="@{/css/markdown-webstorm.css}">
-  <link rel="stylesheet" th:href="@{/css/homepage.css}">
+  <link rel="stylesheet" th:href="@{/css/combine.css}">
 
   <title>研修期間各手順書</title>
   <style>
@@ -16,7 +16,6 @@
 <body>
   <div class="layout">
     <div class="sidebar">
-
       <div class="task-section">
         <div class="task-header task-A" onclick="toggleSection(this)">
           <i class="ms-Icon ms-Icon--Document"></i>
@@ -58,54 +57,25 @@
           </div>
         </div>
       </div>
-
-      <div class="edit-button-container">
-        <button class="edit-button" onclick="showLogin()">+ 新規登録・編集</button>
-      </div>
     </div>
 
     <div class="main-content">
-      <div class="markdown-container">
-        <div id="content" th:fragment="content">
-          <div th:utext="${content}">
-            top
-          </div>
-        </div>
+      <div class="edit-button-container">
+        <button class="edit-button" onclick="goToEditor()">編集</button>
       </div>
-    </div>
-
-    <div id="loginModal" class="modal">
-      <div class="modal-content">
-        <form th:action="@{/login}" th:object="${loginForm}" method="post">
-          <div class="form-group">
-            <label for="username">管理者ID：</label>
-            <input type="text" id="username" name="username" th:field="*{username}">
-          </div><br>
-
-          <div class="form-group">
-            <label for="password">パスワード：</label>
-            <input type="password" id="password" name="password" th:field="*{password}">
-          </div>
-
-          <div class="errorMessage" id="errorMessage" th:if="${errorMessage != null}">
-            <span th:text="${errorMessage}"></span>
-          </div>
-
-          <div class="button-group">
-            <button id="cancel-btn" onclick="closeLogin()" type="button">キャンセル</button>
-            <button id="login-btn" type="submit">登録</button>
-          </div>
-        </form>
-
+      <div class="markdown-container">
+        <div id="content" th:fragment="content" th:utext="${content}">
+          top
+        </div>
       </div>
     </div>
   </div>
 
-  <button class="back-to-top" type="button">トップ</button>
+  <button class="back-to-top">トップ</button>
 
   <script>
     let currentFileId = "";
-
+    
     function toggleSection(element) {
       const content = element.nextElementSibling;
       content.style.display = content.style.display === 'none' ? 'block' : 'none';
@@ -113,41 +83,25 @@
 
     function loadContent(fileId) {
       currentFileId = fileId;
-      fetch(`/content/${fileId}`, {
+      fetch(`/${fileId}`, {
         headers: {
           'X-Requested-With': 'XMLHttpRequest'
         }
       })
         .then(response => response.text())
-        .then(content => {
-          const contentDiv = document.getElementById('content');
-          contentDiv.innerHTML = content;
+        .then(html => {
+          document.getElementById('content').innerHTML = html;
         })
         .catch(error => console.error('Error:', error));
     }
 
-    /* 登録システムｂｔｎ*/
-    function showLogin() {
-      document.getElementById('loginModal').style.display = 'block';
-      document.getElementById('username').focus();
-
-      document.getElementById('username').value = '';
-      document.getElementById('password').value = '';
-      document.getElementById('errorMessage').style.display = 'none';
-
+    function goToEditor() {      
+      if (currentFileId) {
+        window.location.href = `/edit/${currentFileId}`;
+      }
     }
 
-    function closeLogin() {
-      document.getElementById('loginModal').style.display = 'none';
-    }
-
-    //    function goToEditor() {
-    //      if (currentFileId) {
-    //        window.location.href = `/edit/${currentFileId}`;
-    //      }
-    //    }
-
-    /* back to topボタン */
+    //back to topボタン
     const backToTopButton = document.querySelector('.back-to-top');
     const mainContent = document.querySelector('.main-content')
 
@@ -162,12 +116,15 @@
       }
     });
 
+
     backToTopButton.addEventListener('click', () => {
       document.querySelector('.main-content').scrollTo({
         top: 0,
         behavior: 'smooth'
       });
     });
+
+    
 
   </script>
 </body>

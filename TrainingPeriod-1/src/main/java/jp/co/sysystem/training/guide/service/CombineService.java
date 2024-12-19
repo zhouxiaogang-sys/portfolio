@@ -22,7 +22,7 @@ import com.vladsch.flexmark.parser.Parser;
 import com.vladsch.flexmark.util.data.MutableDataSet;
 
 @Service
-public class HomepageService {
+public class CombineService {
 
   private final Parser parser;
   private final HtmlRenderer renderer;
@@ -35,7 +35,7 @@ public class HomepageService {
   /**
    *markdownレンダラーの初期化 
    */
-  public HomepageService() {
+  public CombineService() {
     MutableDataSet options = new MutableDataSet();
     options.set(Parser.EXTENSIONS, Arrays.asList(TablesExtension.create()));
 
