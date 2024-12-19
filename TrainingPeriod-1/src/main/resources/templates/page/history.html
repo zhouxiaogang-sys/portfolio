@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>文件历史记录</title>
+    <link href="/css/history.css" rel="stylesheet">
+    <style>/* 基础样式 */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Segoe UI', system-ui, sans-serif;
+    }
+
+    body {
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+    }
+
+    .container {
+        max-width: 1200px;
+        margin: 2rem auto;
+        padding: 0 1rem;
+        display: grid;
+        grid-template-columns: 1fr 2fr;
+        gap: 2rem;
+    }
+
+    /* 卡片样式 */
+    .card {
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        padding: 1.5rem;
+    }
+
+    .card-title {
+        font-size: 1.25rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    /* 历史记录列表样式 */
+    .history-list {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .history-item {
+        padding: 1rem;
+        border: 1px solid #e0e0e0;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+
+    .history-item:hover {
+        background: #f8f8f8;
+        border-color: #ccc;
+    }
+
+    .history-item.active {
+        background: #e8f4fe;
+        border-color: #0078d4;
+    }
+
+    .version-info {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 0.5rem;
+    }
+
+    .version-number {
+        font-weight: 500;
+        color: #0078d4;
+    }
+
+    .commit-message {
+        margin: 0.5rem 0;
+    }
+
+    .author-info {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        color: #666;
+        font-size: 0.9rem;
+    }
+
+    /* 内容展示区样式 */
+    .content-viewer {
+        background: white;
+        padding: 1.5rem;
+        border-radius: 8px;
+        min-height: 500px;
+    }
+
+    .content-header {
+        padding-bottom: 1rem;
+        margin-bottom: 1rem;
+        border-bottom: 1px solid #eee;
+    }
+
+    .content-body {
+        white-space: pre-wrap;
+        font-family: monospace;
+        line-height: 1.6;
+        padding: 1rem;
+        background: #f8f8f8;
+        border-radius: 4px;
+    }
+
+    /* 图标样式 */
+    .icon {
+        width: 20px;
+        height: 20px;
+        color: #666;
+    }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 左侧历史记录列表 -->
+        <div class="card">
+            <h2 class="card-title">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                ヴァージョン履歴
+            </h2>
+            <div class="history-list" id="historyList">
+                <div th:each="item : ${history}" class="history-item"
+                     th:data-version="${item.version}"
+                     th:data-content="${item.content}">
+                    <div class="version-info">
+                        <span class="version-number" th:text="'Version ' + ${item.version}">Version</span>
+                        <span class="create-time" th:text="${item.createTime}">Time</span>
+                    </div>
+                    <div class="commit-message" th:text="${item.commitMessage}">Message</div>
+                    <div class="author-info">
+                        <span th:text="'作者：' + ${item.author}">Author</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 右侧内容展示区 -->
+        <div class="card">
+            <h2 class="card-title">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                </svg>
+                ファイルコンテンツ
+            </h2>
+            <div class="content-viewer">
+                <div class="content-header" id="contentHeader">
+                    ヴァージョンを選択してください
+                </div>
+                <div class="content-body" id="contentBody"></div>
+            </div>
+        </div>
+    </div>
+
+    <script th:inline="javascript">
+
+        const initialHistory = /*[[${history}]]*/ [];
+        const currentFileId = /*[[${fileId}]]*/ '';
+
+        document.addEventListener('DOMContentLoaded', () => {
+            if (initialHistory && initialHistory.length > 0) {
+                // 如果有初始数据，直接显示
+                showContent(initialHistory[0]);
+            } else {
+                // 否则从 API 获取数据
+                const fileId = currentFileId || window.location.pathname.split('/').pop();
+                initializeHistoryList(fileId);
+            }
+
+            // 添加点击事件监听
+            document.querySelectorAll('.history-item').forEach(item => {
+                item.addEventListener('click', () => {
+                    document.querySelectorAll('.history-item').forEach(i =>
+                        i.classList.remove('active'));
+                    item.classList.add('active');
+
+                    const version = item.getAttribute('data-version');
+                    const content = item.getAttribute('data-content');
+                    showContent({
+                        version: version,
+                        content: content,
+                        author: item.querySelector('.author-info span').textContent.replace('作者：', ''),
+                        createTime: item.querySelector('.create-time').textContent,
+                        commitMessage: item.querySelector('.commit-message').textContent
+                    });
+                });
+            });
+        });
+
+        async function fetchHistoryData(fileId) {
+            try {
+                const response = await fetch(`/list/${fileId}`, {
+                    method: 'GET',
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error(`获取历史记录失败: ${response.status}`);
+                }
+                return await response.json();
+            } catch (error) {
+                console.error('获取历史记录失败:', error);
+                throw error; // 抛出错误以便上层处理
+            }
+        }
+
+        // 初始化历史记录列表
+        async function initializeHistoryList(fileId) {
+            const historyList = document.getElementById('historyList');
+            historyList.innerHTML = ''; // 現在の内容を削除
+
+            try {
+                const historyData = await fetchHistoryData(fileId);
+
+                historyData.forEach(history => {
+                    const historyItem = document.createElement('div');
+                    historyItem.className = 'history-item';
+                    historyItem.innerHTML = `
+                <div class="version-info">
+                    <span class="version-number">Version ${history.version}</span>
+                    <span class="create-time">${history.createTime}</span>
+                </div>
+                <div class="commit-message">${history.commitMessage}</div>
+                <div class="author-info">
+                    <span>作者：${history.author}</span>
+                </div>
+            `;
+
+                    historyItem.addEventListener('click', () => {
+                        // 移除其他项的active类
+                        document.querySelectorAll('.history-item').forEach(item => {
+                            item.classList.remove('active');
+                        });
+
+                        // 添加active类到当前项
+                        historyItem.classList.add('active');
+
+                        // 更新内容显示
+                        showContent(history);
+                    });
+
+                    historyList.appendChild(historyItem);
+                });
+
+                // 如果有历史记录，默认显示最新版本
+                if (historyData.length > 0) {
+                    showContent(historyData[0]);
+                    historyList.firstChild.classList.add('active');
+                }
+            } catch (error) {
+                console.error('初始化历史记录失败:', error);
+                historyList.innerHTML = '<div class="error-message">加载历史记录失败</div>';
+            }
+        }
+
+        async function compareVersions(oldVersion, newVersion) {
+            try {
+                const response = await fetch(`/api/history/compare?oldVersion=${encodeURIComponent(oldVersion)}&newVersion=${encodeURIComponent(newVersion)}`, {
+                    method: 'GET',
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP错误! 状态码: ${response.status}`);
+                }
+
+                const data = await response.json();
+                return data;
+            } catch (error) {
+                console.error('版本比较失败:', error);
+                throw error;
+            }
+        }
+
+        // 显示选中版本的内容
+        function showContent(history) {
+            const contentHeader = document.getElementById('contentHeader');
+            const contentBody = document.getElementById('contentBody');
+            
+            contentHeader.innerHTML = `
+                <h3>Version ${history.version}</h3>
+                <div class="author-info">
+                    <span>作者：${history.author}</span>
+                    <span>提出時間：${history.createTime}</span>
+                </div>
+                <div class="commit-message">${history.commitMessage}</div>
+            `;
+            
+            contentBody.textContent = history.content;
+        }
+
+        // 页面加载完成后初始化
+        document.addEventListener('DOMContentLoaded', () => {
+            // 从URL路径中获取fileId
+            const pathParts = window.location.pathname.split('/');
+            const fileId = pathParts[pathParts.length - 1];
+            initializeHistoryList(fileId);
+        });
+
+
+    </script>
+</body>
+</html>

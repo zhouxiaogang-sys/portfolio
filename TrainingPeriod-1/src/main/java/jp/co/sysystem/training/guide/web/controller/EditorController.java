@@ -1,20 +1,25 @@
 package jp.co.sysystem.training.guide.web.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import jp.co.sysystem.training.guide.domain.dto.SaveVersionRequest;
+import jp.co.sysystem.training.guide.domain.table.FileHistory;
 import jp.co.sysystem.training.guide.service.EditorService;
-
-import java.util.List;
+import jp.co.sysystem.training.guide.service.HistoryService;
 
 @Controller
 public class EditorController {
 
   @Autowired
   private EditorService editorService;
+
+  @Autowired
+  private HistoryService fileHistoryService;
 
   @GetMapping("/edit/{fileId}")
   public String edit(@PathVariable String fileId, Model model) {
@@ -29,19 +34,19 @@ public class EditorController {
   }
 
   @PostMapping("/save")
-  @ResponseBody
-  public ResponseEntity<String> save(@RequestParam String fileId,
-          @RequestParam String content) {
+  public ResponseEntity<?> saveVersion(@RequestBody SaveVersionRequest request) {
+    FileHistory history = fileHistoryService.updateHistory(
+            request.getFileId(),
+            request.getContent(),
+            request.getCommitMessage(),
+            request.getAuthor());
     
-    if (fileId == null || fileId.trim().isEmpty()) {
-      return null;
-    }
+    editorService.saveFile(
+            request.getFileId(),
+            request.getContent());
     
-    try {
-      editorService.saveFile(fileId, content);
-      return ResponseEntity.ok("セーブ成功");
-    } catch (Exception e) {
-      return ResponseEntity.badRequest().body("セーブ失敗：" + e.getMessage());
-    }
+    return ResponseEntity.ok()
+            .contentType(MediaType.APPLICATION_JSON)
+            .body(history);
   }
 }

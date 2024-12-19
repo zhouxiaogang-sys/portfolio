@@ -19,7 +19,7 @@
           <input type="hidden" id="fileId" th:value="${fileId}">
           <div>
             <button id="saveBtn" class="btn btn-primary">保存</button>
-            <a href="/" class="btn btn-secondary">back</a>
+            <a href="/management" class="btn btn-secondary">back</a>
           </div>
         </div>
         <textarea id="editor" th:text="${content}"></textarea>
@@ -45,17 +45,28 @@
       var content = editor.getValue();
       var fileId = document.getElementById("fileId").value;
 
+      const jsonData = {
+        filePath: fileId,
+        content: content,
+        commitMessage: "Updated content",
+        author: "zhou.xiaogang"
+      }
+
       fetch("/save", {
         method: "POST",
         headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
+          "Content-Type": "application/json",
         },
-        body: "fileId=" + encodeURIComponent(fileId) +
-          "&content=" + encodeURIComponent(content)
+        body: JSON.stringify(jsonData)
       })
-        .then(response => response.text())
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Network response was not ok')
+          }
+          return response.json();
+        })
         .then(result => {
-          alert(result);
+          alert("保存成功");
         })
         .catch(error => {
           alert("保存失敗：" + error);
