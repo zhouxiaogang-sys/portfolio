@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.PreUpdate;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Table;
@@ -30,4 +31,9 @@ public class MarkdownFile implements Serializable {
     private LocalDateTime uploadTime;
     private LocalDateTime updateTime;
     private Boolean isDeleted;
+    
+    @PreUpdate
+    protected void onUpdate() {
+      updateTime = LocalDateTime.now();
+    }
 }

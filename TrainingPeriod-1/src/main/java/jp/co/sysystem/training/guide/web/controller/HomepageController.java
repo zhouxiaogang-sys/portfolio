@@ -26,7 +26,6 @@ public class HomepageController {
   @GetMapping("/")
   public String showMenu(Model model) throws IOException {
     try {
-      System.out.println("aaa");
       setupHomePageModel(model);
       return HOME_PAGE;
     } catch (IOException e) {
@@ -39,7 +38,6 @@ public class HomepageController {
           HttpServletRequest request,
           Model model) {
     try {
-      System.out.println(fileId);
       String htmlContent = homepageService.getHtmlContent(fileId);
       model.addAttribute("content", htmlContent);
 
@@ -61,11 +59,6 @@ public class HomepageController {
     if (!model.containsAttribute("content")) {
       model.addAttribute("content", homepageService.getHtmlContent("index"));
     }
-  }
-
-  private boolean isAjaxRequest(HttpServletRequest request) {
-    return "XMLHttpRequest".equals(
-            request.getHeader("X-Requested-With"));
   }
 
 }

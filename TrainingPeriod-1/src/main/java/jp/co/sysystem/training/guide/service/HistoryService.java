@@ -2,16 +2,16 @@ package jp.co.sysystem.training.guide.service;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import difflib.Delta;
 import difflib.DiffUtils;
+import difflib.Patch;
 import jp.co.sysystem.training.guide.domain.repository.FileHistoryRepository;
 import jp.co.sysystem.training.guide.domain.table.FileHistory;
 
@@ -40,9 +40,7 @@ public class HistoryService {
    * @return 履歴のリスト
    */
   public List<FileHistory> getFileHistory(String fileId) {
-    if (!fileId.endsWith(".md")) {
-      fileId += ".md";
-    }
+
     return historyRepository.findByFileIdOrderByCreateTimeDesc(fileId);
   }
 
@@ -53,9 +51,7 @@ public class HistoryService {
    * @return ファイルの内容
    */
   public Optional<String> getVersionContent(String fileId, String version) {
-    if (!fileId.endsWith(".md")) {
-      fileId += ".md";
-    }
+
     return historyRepository.findByFileIdAndVersion(fileId, version)
             .map(FileHistory::getContent);
   }
@@ -66,9 +62,7 @@ public class HistoryService {
    * @return 最新バージョンの履歴
    */
   public Optional<FileHistory> getLatestVersion(String fileId) {
-    if (!fileId.endsWith(".md")) {
-      fileId += ".md";
-    }
+
     return historyRepository.findTopByFileIdOrderByCreateTimeDesc(fileId);
   }
 
@@ -81,35 +75,67 @@ public class HistoryService {
    * @return 変更内容を説明する文字列のリスト。各要素は追加、削除、または変更の詳細を含みます。
    */
   public List<String> compareVersions(String oldContent, String newContent) {
-    return DiffUtils.diff(
-            Arrays.asList(oldContent.split("\n")),
-            Arrays.asList(newContent.split("\n"))).getDeltas().stream()
-            .map(delta -> formatDelta(delta))
-            .collect(Collectors.toList());
-  }
+    List<String> oldLines = Arrays.asList(oldContent.split("\n"));
+    List<String> newLines = Arrays.asList(newContent.split("\n"));
 
-  /**
-   * 差分の内容を人間が読みやすい形式にフォーマットします。
-   *
-   * @param delta 処理対象の差分情報を含むDeltaオブジェクト
-   * @return フォーマットされた差分の説明文字列
-   *         - 追加の場合: "内容追加: [追加された行]"
-   *         - 削除の場合: "内容削除: [削除された行]"
-   *         - 変更の場合: "修正: 原文=[元の行], 現在=[変更後の行]"
-   */
-  private String formatDelta(Delta<String> delta) {
-    switch (delta.getType()) {
-    case INSERT:
-      return String.format("内容追加: %s", delta.getRevised().getLines());
-    case DELETE:
-      return String.format("内容削除: %s", delta.getOriginal().getLines());
-    case CHANGE:
-      return String.format("修正: 原文=%s, 現在=%s",
-              delta.getOriginal().getLines(),
-              delta.getRevised().getLines());
-    default:
-      return "未知の編集";
+    // パッチを生成（コンテキスト行3行を含む）
+    Patch<String> patch = DiffUtils.diff(oldLines, newLines);
+    List<Delta<String>> deltas = patch.getDeltas();
+
+    // 結果を格納するリスト
+    List<String> diffResults = new ArrayList<>();
+
+    int currentPosition = 0;
+
+    for (Delta<String> delta : deltas) {
+      // 変更箇所の前のコンテキスト行を追加
+      int contextStart = Math.max(0, currentPosition);
+      int deltaStart = delta.getOriginal().getPosition();
+
+      // 前のコンテキスト行を追加（最大3行）
+      for (int i = Math.max(contextStart, deltaStart - 3); i < deltaStart; i++) {
+        diffResults.add(" " + oldLines.get(i));
+      }
+
+      // 差分の種類に応じて処理
+      switch (delta.getType()) {
+      case INSERT:
+        // 追加された行
+        for (String line : delta.getRevised().getLines()) {
+          diffResults.add("+" + line);
+        }
+        break;
+
+      case DELETE:
+        // 削除された行
+        for (String line : delta.getOriginal().getLines()) {
+          diffResults.add("-" + line);
+        }
+        break;
+
+      case CHANGE:
+        // 変更された行（削除行と追加行の組み合わせとして表現）
+        for (String line : delta.getOriginal().getLines()) {
+          diffResults.add("-" + line);
+        }
+        for (String line : delta.getRevised().getLines()) {
+          diffResults.add("+" + line);
+        }
+        break;
+      }
+
+      // 変更箇所の後のコンテキスト行を追加（最大3行）
+      int contextEnd = Math.min(oldLines.size(),
+              delta.getOriginal().getPosition() + delta.getOriginal().getLines().size() + 3);
+      for (int i = delta.getOriginal().getPosition()
+              + delta.getOriginal().getLines().size(); i < contextEnd; i++) {
+        diffResults.add(" " + oldLines.get(i));
+      }
+
+      currentPosition = contextEnd;
     }
+
+    return diffResults;
   }
 
   /**

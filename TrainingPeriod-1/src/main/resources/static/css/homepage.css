@@ -19,7 +19,7 @@ html {
   background: #ffffff;
   padding: 16px;
   border-right: 1px solid #edebe9;
-  box-shadow: rgba(0, 0, 0, 0.05) 0px 1px 3px;
+  box-shadow: rgba(0, 0, 0, 0.05) 0 1px 3px;
   overflow-y: auto;
 }
 
@@ -37,22 +37,33 @@ html {
 }
 
 .task-header {
-  padding: 12px 16px;
+  padding: 16px 20px;
   background: #ffffff;
   cursor: pointer;
   border-radius: 4px;
-  margin-bottom: 2px;
+  margin-bottom: 3px;
   font-weight: 500;
   transition: all 0.2s ease;
   border: 1px solid transparent;
   display: flex;
   align-items: center;
-  box-shadow: rgba(0, 0, 0, 0.05) 0px 1px 2px;
+  box-shadow: rgba(0, 0, 0, 0.05) 0 1px 2px;
+  height: 30px;
 }
 
 .task-header:hover {
   background: #f3f2f1;
   border-color: #edebe9;
+}
+
+.task-header span {
+  height: 20px;
+  line-height: 20px;
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 /* タスク別色 */
@@ -70,8 +81,17 @@ html {
 
 .task-content {
   padding: 8px 16px 8px 20px;
-  display: none;
   margin-left: 4px;
+  overflow: hidden;
+  transition: max-height 0.3s ease-out;
+  max-height: 0;
+}
+
+.each-content {
+  height: 45px;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
 }
 
 .task-content.active {
@@ -81,11 +101,16 @@ html {
 
 /* link様式 */
 .task-content a {
+  padding: 5px 12px;  /* 减小上下padding */
+  margin: 2px 0;      /* 减小上下margin */
+  line-height: 1.5;   /* 添加固定行高 */
+  height: 36px;       /* 固定高度 */
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;  /* 垂直居中文本 */
+  overflow: hidden;
   color: #0078d4;
   text-decoration: none;
-  display: block;
-  padding: 8px 12px;
-  margin: 4px 0;
   border-radius: 4px;
   transition: all 0.2s ease;
 }

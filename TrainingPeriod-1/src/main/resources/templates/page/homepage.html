@@ -12,8 +12,9 @@
 
   </style>
 </head>
-
 <body>
+<!--<script src="/js/size-monitor.js"></script>-->
+
   <div class="layout">
     <div class="sidebar">
 
@@ -23,7 +24,7 @@
           <span>A課題</span>
         </div>
         <div class="task-content">
-          <div th:each="doc : ${markdowns}" th:if="${doc.task == 'A'}">
+          <div class="each-content" th:each="doc : ${markdowns}" th:if="${doc.task == 'A'}">
             <a class="content-link" th:data-file-id="${doc.fileId}" th:text="${doc.fileName}"
               onclick="loadContent(this.getAttribute('data-file-id')); return false;">
             </a>
@@ -37,7 +38,7 @@
           <span>B課題</span>
         </div>
         <div class="task-content">
-          <div th:each="doc : ${markdowns}" th:if="${doc.task == 'B'}">
+          <div class="each-content" th:each="doc : ${markdowns}" th:if="${doc.task == 'B'}">
             <a class="content-link" th:data-file-id="${doc.fileId}" th:text="${doc.fileName}"
               onclick="loadContent(this.getAttribute('data-file-id')); return false;">
             </a>
@@ -51,7 +52,7 @@
           <span>SpringBoot課題</span>
         </div>
         <div class="task-content">
-          <div th:each="doc : ${markdowns}" th:if="${doc.task == 'SpringBoot'}">
+          <div class="each-content" th:each="doc : ${markdowns}" th:if="${doc.task == 'SpringBoot'}">
             <a class="content-link" th:data-file-id="${doc.fileId}" th:text="${doc.fileName}"
               onclick="loadContent(this.getAttribute('data-file-id')); return false;">
             </a>
@@ -103,12 +104,17 @@
 
   <button class="back-to-top" type="button">トップ</button>
 
-  <script>
+  <script th:inline="javascript">
+
     let currentFileId = "";
 
     function toggleSection(element) {
       const content = element.nextElementSibling;
-      content.style.display = content.style.display === 'none' ? 'block' : 'none';
+      if (content.style.maxHeight) {
+        content.style.maxHeight = null;
+      } else {
+        content.style.maxHeight = content.scrollHeight + "px";
+      }
     }
 
     function loadContent(fileId) {
@@ -124,28 +130,30 @@
           contentDiv.innerHTML = content;
         })
         .catch(error => console.error('Error:', error));
+
+      backToTop();
     }
 
     /* 登録システムｂｔｎ*/
     function showLogin() {
-      document.getElementById('loginModal').style.display = 'block';
-      document.getElementById('username').focus();
+      const sessionData = /*[[${session.username}]]*/ null;
+      if (sessionData == null) {
+        document.getElementById('loginModal').style.display = 'block';
+        document.getElementById('username').focus();
 
-      document.getElementById('username').value = '';
-      document.getElementById('password').value = '';
-      document.getElementById('errorMessage').style.display = 'none';
+        document.getElementById('username').value = '';
+        document.getElementById('password').value = '';
+        document.getElementById('errorMessage').style.display = 'none';
+      } else {
+        window.location.href = "/management";
+      }
+
 
     }
 
     function closeLogin() {
       document.getElementById('loginModal').style.display = 'none';
     }
-
-    //    function goToEditor() {
-    //      if (currentFileId) {
-    //        window.location.href = `/edit/${currentFileId}`;
-    //      }
-    //    }
 
     /* back to topボタン */
     const backToTopButton = document.querySelector('.back-to-top');
@@ -162,12 +170,14 @@
       }
     });
 
-    backToTopButton.addEventListener('click', () => {
+    function backToTop() {
       document.querySelector('.main-content').scrollTo({
         top: 0,
         behavior: 'smooth'
       });
-    });
+    }
+
+    backToTopButton.addEventListener('click', backToTop);
 
   </script>
 </body>

@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import jp.co.sysystem.training.guide.domain.repository.FileHistoryRepository;
 import jp.co.sysystem.training.guide.domain.repository.GuidesRepository;
 import jp.co.sysystem.training.guide.domain.table.MarkdownFile;
 
@@ -12,6 +11,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -66,9 +66,9 @@ public class EditorService {
    * @param filename
    * @return ファイルの内容を文字列として返す
    */
-  public String readFile(String filename) {
+  public String readFile(String fileId) {
     try {
-      Path path = Paths.get(MD_DIR, filename);
+      Path path = Paths.get(MD_DIR, fileId);
       if (Files.exists(path)) {
         return Files.readString(path);
       }
@@ -84,14 +84,18 @@ public class EditorService {
    * @param content
    */
   @Transactional
-  public void saveFile(String filename, String content) {
+  public void saveFile(String fileId, String content) {
     // ファイルの保存
     try {
-      if (!filename.endsWith(".md")) {
-        filename += ".md";
+      grep.updateUpdateTimeByFileId(fileId, LocalDateTime.now());
+      
+      if (!fileId.endsWith(".md")) {
+        fileId += ".md";
       }
-      Path path = Paths.get(MD_DIR, filename);
+      Path path = Paths.get(MD_DIR, fileId);
       Files.writeString(path, content);
+      
+      
     } catch (IOException e) {
       throw new RuntimeException("保存失敗", e);
     }

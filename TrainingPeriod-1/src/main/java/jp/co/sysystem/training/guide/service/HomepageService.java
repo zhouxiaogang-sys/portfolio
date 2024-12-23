@@ -44,25 +44,22 @@ public class HomepageService {
   }
 
   public List<MarkdownFile> showIndex() {
-
-    return StreamSupport.stream(grep.findAll().spliterator(), false)
-            .sorted(Comparator.comparing(MarkdownFile::getSortOrder))
-            .collect(Collectors.toList());
+    return grep.findAllByOrderBySortOrderAsc();
   }
 
   /**
    * markdownファイルをレンダーする
-   * @param filename
+   * @param fileId
    * @return
    * @throws IOException
    */
-  public String getHtmlContent(String filename) throws IOException {
+  public String getHtmlContent(String fileId) throws IOException {
 
-    if (filename.equals("favicon.ico")) {
+    if (fileId.equals("favicon.ico")) {
       return null;
     }
 
-    Path filePath = Paths.get(MD_DIR + filename + ".md");
+    Path filePath = Paths.get(MD_DIR + fileId + ".md");
     String markdown = Files.readString(filePath);
     
     return renderer.render(parser.parse(markdown));

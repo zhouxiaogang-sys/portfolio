@@ -1,4 +1,4 @@
-package jp.co.sysystem.training.guide.domain.dto;
+package jp.co.sysystem.training.guide.web.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
