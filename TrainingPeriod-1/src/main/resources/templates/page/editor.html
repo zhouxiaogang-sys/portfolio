@@ -7,10 +7,28 @@
   <link rel="icon" href="data:,">
   <link href="/css/bootstrap.min.css" rel="stylesheet">
   <link href="/lib/codemirror/codemirror.min.css" rel="stylesheet">
-  <link href="/lib/codemirror/theme/monokai.min.css" rel="stylesheet">
+  <link href="/lib/codemirror/theme/vscode-dark.css" rel="stylesheet">
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      overflow: hidden;
+    }
+    .container-fluid {
+      height: 100%;
+    }
+    .row {
+      height: calc(100% - 2rem);
+    }
+    .col-12 {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+  </style>
 </head>
 
-<body>
+<body style="overflow: hidden">
   <div class="container-fluid">
     <div class="row mt-3">
       <div class="col-12">
@@ -33,23 +51,27 @@
     // エディター初期化
     var editor = CodeMirror.fromTextArea(document.getElementById("editor"), {
       mode: 'markdown',
-      theme: 'monokai',
+      theme: 'dark',
       lineNumbers: true,
       lineWrapping: true,
       height: "auto"
     });
-    editor.setSize("100%", "600px");
+    editor.setSize("100%", "calc(100% - 60px)");
 
     // セーブ機能
     document.getElementById("saveBtn").addEventListener("click", function () {
-      var content = editor.getValue();
-      var fileId = document.getElementById("fileId").value;
+      const commitMessasge = window.prompt("コミットメッセージを入力してください：");
+      if (commitMessasge === null) {
+        return;
+      }
+
+      const content = editor.getValue();
+      const fileId = document.getElementById("fileId").value;
 
       const jsonData = {
         fileId: fileId,
         content: content,
-        commitMessage: "Updated content",
-        author: "zhou.xiaogang"
+        commitMessage: commitMessasge,
       }
 
       fetch("/save", {

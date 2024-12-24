@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import jakarta.servlet.http.HttpSession;
 import jp.co.sysystem.training.guide.web.request.SaveVersionRequest;
 import jp.co.sysystem.training.guide.domain.table.FileHistory;
 import jp.co.sysystem.training.guide.service.EditorService;
@@ -22,10 +23,15 @@ public class EditorController {
   //エディターサービスの注入
   @Autowired
   private EditorService editorService;
+  
+  @Autowired
+  HttpSession session;
 
   // ファイル履歴サービスの注入
   @Autowired
   private HistoryService fileHistoryService;
+  
+  private static final String EDITOR_PAGE = "page/editor";
 
   /**
    * ファイル編集画面を表示する
@@ -48,7 +54,7 @@ public class EditorController {
     model.addAttribute("fileId", fileId);
     model.addAttribute("fileName", fileName);
     model.addAttribute("content", content);
-    return "page/editor";
+    return EDITOR_PAGE;
   }
 
   /**
@@ -58,12 +64,13 @@ public class EditorController {
    */
   @PostMapping("/save")
   public ResponseEntity<?> saveVersion(@RequestBody SaveVersionRequest request) {
+    String username = (String) session.getAttribute("username");
     // 履歴情報を更新
     FileHistory history = fileHistoryService.updateHistory(
             request.getFileId(),
             request.getContent(),
             request.getCommitMessage(),
-            request.getAuthor());
+            username);
 
     // ファイルの内容を保存
     editorService.saveFile(

@@ -22,12 +22,12 @@ public class HistoryService {
   private FileHistoryRepository historyRepository;
 
   public FileHistory updateHistory(String fileId, String content, String commitMessage,
-          String author) {
+          String editor) {
     FileHistory history = new FileHistory();
     history.setFileId(fileId);
     history.setContent(content);
     history.setCommitMessage(commitMessage);
-    history.setAuthor(author);
+    history.setEditor(editor);
     history.setCreateTime(LocalDateTime.now());
     history.setVersion(generateVersion());
 

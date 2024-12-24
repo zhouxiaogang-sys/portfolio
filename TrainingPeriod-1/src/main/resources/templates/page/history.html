@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>手順書編集記録</title>
     <link href="/css/history.css" rel="stylesheet">
+    <link href="/css/diff.css" rel="stylesheet">
+
 </head>
 <body>
     <div class="container">
@@ -85,7 +87,7 @@
                     showContent({
                         version: version,
                         content: content,
-                        author: item.querySelector('.author-info span').textContent.replace('作者：', ''),
+                        editor: item.querySelector('.author-info span').textContent.replace('編集者：', ''),
                         createTime: item.querySelector('.create-time').textContent,
                         commitMessage: item.querySelector('.commit-message').textContent
                     });
@@ -122,7 +124,7 @@
             contentHeader.innerHTML = `
                 <h3>Version ${history.version}</h3>
                 <div class="author-info">
-                    <span>作者：${history.author}</span>
+                    <span>編集者：${history.editor}</span>
                     <span>提出時間：${history.createTime}</span>
                 </div>
                 <div class="commit-message">${history.commitMessage}</div>
@@ -170,7 +172,7 @@
                 </div>
                 <div class="commit-message">${history.commitMessage}</div>
                 <div class="author-info">
-                    <span>作者：${history.author}</span>
+                    <span>編集者：${history.editor}</span>
                 </div>
             `;
 

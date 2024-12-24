@@ -15,7 +15,7 @@ body {
 
 /* メインコンテナのレイアウト */
 .container {
-    max-width: 1200px;
+    max-width: 1600px;
     margin: 2rem auto;
     padding: 0 1rem;
     display: grid;
@@ -210,139 +210,139 @@ body {
 }
 
 /* 差分表示のスタイル */
-.diff-header {
-    padding: 8px 16px;
-    background-color: #f6f8fa;
-    border: 1px solid #d0d7de;
-    border-radius: 6px 6px 0 0;
-}
+/*.diff-header {*/
+/*    padding: 8px 16px;*/
+/*    background-color: #f6f8fa;*/
+/*    border: 1px solid #d0d7de;*/
+/*    border-radius: 6px 6px 0 0;*/
+/*}*/
 
-.file-info {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 8px;
-}
+/*.file-info {*/
+/*    display: flex;*/
+/*    justify-content: space-between;*/
+/*    align-items: center;*/
+/*    margin-bottom: 8px;*/
+/*}*/
 
-.file-name {
-    font-weight: 600;
-    color: #24292f;
-}
+/*.file-name {*/
+/*    font-weight: 600;*/
+/*    color: #24292f;*/
+/*}*/
 
-.file-stats {
-    font-size: 12px;
-}
+/*.file-stats {*/
+/*    font-size: 12px;*/
+/*}*/
 
-.additions {
-    color: #1a7f37;
-    margin-right: 8px;
-}
+/*.additions {*/
+/*    color: #1a7f37;*/
+/*    margin-right: 8px;*/
+/*}*/
 
-.deletions {
-    color: #cf222e;
-}
+/*.deletions {*/
+/*    color: #cf222e;*/
+/*}*/
 
-.diff-stats {
-    margin-top: 4px;
-}
+/*.diff-stats {*/
+/*    margin-top: 4px;*/
+/*}*/
 
-.diff-stat-box {
-    margin-top: 4px;
-}
+/*.diff-stat-box {*/
+/*    margin-top: 4px;*/
+/*}*/
 
-.stat-bar {
-    display: flex;
-    height: 8px;
-    background-color: #d0d7de;
-    border-radius: 4px;
-    overflow: hidden;
-}
+/*.stat-bar {*/
+/*    display: flex;*/
+/*    height: 8px;*/
+/*    background-color: #d0d7de;*/
+/*    border-radius: 4px;*/
+/*    overflow: hidden;*/
+/*}*/
 
-.stat-addition {
-    background-color: #2da44e;
-}
+/*.stat-addition {*/
+/*    background-color: #2da44e;*/
+/*}*/
 
-.stat-deletion {
-    background-color: #cf222e;
-}
+/*.stat-deletion {*/
+/*    background-color: #cf222e;*/
+/*}*/
 
-.diff-content {
-    border: 1px solid #d0d7de;
-    border-top: none;
-    border-radius: 0 0 6px 6px;
-    font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
-    font-size: 12px;
-    line-height: 20px;
-}
+/*.diff-content {*/
+/*    border: 1px solid #d0d7de;*/
+/*    border-top: none;*/
+/*    border-radius: 0 0 6px 6px;*/
+/*    font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;*/
+/*    font-size: 12px;*/
+/*    line-height: 20px;*/
+/*}*/
 
-.diff-line {
-    display: flex;
-    border-bottom: 1px solid #f0f0f0;
-}
+/*.diff-line {*/
+/*    display: flex;*/
+/*    border-bottom: 1px solid #f0f0f0;*/
+/*}*/
 
-.diff-line:last-child {
-    border-bottom: none;
-}
+/*.diff-line:last-child {*/
+/*    border-bottom: none;*/
+/*}*/
 
-.line-number {
-    width: 50px;
-    padding: 0 10px;
-    color: #6e7781;
-    text-align: right;
-    border-right: 1px solid #d0d7de;
-    background-color: #f6f8fa;
-    user-select: none;
-}
+/*.line-number {*/
+/*    width: 50px;*/
+/*    padding: 0 10px;*/
+/*    color: #6e7781;*/
+/*    text-align: right;*/
+/*    border-right: 1px solid #d0d7de;*/
+/*    background-color: #f6f8fa;*/
+/*    user-select: none;*/
+/*}*/
 
-.line-content {
-    flex: 1;
-    padding: 0 10px;
-    white-space: pre;
-}
+/*.line-content {*/
+/*    flex: 1;*/
+/*    padding: 0 10px;*/
+/*    white-space: pre;*/
+/*}*/
 
-.diff-addition {
-    background-color: #e6ffec;
-}
+/*.diff-addition {*/
+/*    background-color: #e6ffec;*/
+/*}*/
 
-.diff-addition .line-number {
-    background-color: #ccffd8;
-}
+/*.diff-addition .line-number {*/
+/*    background-color: #ccffd8;*/
+/*}*/
 
-.diff-deletion {
-    background-color: #ffebe9;
-}
+/*.diff-deletion {*/
+/*    background-color: #ffebe9;*/
+/*}*/
 
-.diff-deletion .line-number {
-    background-color: #ffd7d5;
-}
+/*.diff-deletion .line-number {*/
+/*    background-color: #ffd7d5;*/
+/*}*/
 
-.diff-mark {
-    color: #6e7781;
-    margin-right: 8px;
-    user-select: none;
-}
+/*.diff-mark {*/
+/*    color: #6e7781;*/
+/*    margin-right: 8px;*/
+/*    user-select: none;*/
+/*}*/
 
-.diff-addition .diff-mark {
-    color: #1a7f37;
-}
+/*.diff-addition .diff-mark {*/
+/*    color: #1a7f37;*/
+/*}*/
 
-.diff-deletion .diff-mark {
-    color: #cf222e;
-}
+/*.diff-deletion .diff-mark {*/
+/*    color: #cf222e;*/
+/*}*/
 
-/* 可展开/折叠的样式 */
-.diff-chunk {
-    border-bottom: 1px solid #d0d7de;
-}
+/*!* 可展开/折叠的样式 *!*/
+/*.diff-chunk {*/
+/*    border-bottom: 1px solid #d0d7de;*/
+/*}*/
 
-.diff-chunk:last-child {
-    border-bottom: none;
-}
+/*.diff-chunk:last-child {*/
+/*    border-bottom: none;*/
+/*}*/
 
-.chunk-header {
-    background-color: #f6f8fa;
-    color: #57606a;
-    padding: 4px 10px;
-    font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
-    font-size: 12px;
-}
+/*.chunk-header {*/
+/*    background-color: #f6f8fa;*/
+/*    color: #57606a;*/
+/*    padding: 4px 10px;*/
+/*    font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;*/
+/*    font-size: 12px;*/
+/*}*/

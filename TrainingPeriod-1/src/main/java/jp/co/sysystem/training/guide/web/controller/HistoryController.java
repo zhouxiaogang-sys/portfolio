@@ -23,18 +23,23 @@ public class HistoryController {
   @Autowired
   private HistoryService fileHistoryService;
 
+  private static final String HISTORY_PAGE = "page/history";
+
   @GetMapping("/history/{fileId}")
   public String showHistoryPage(@PathVariable String fileId, Model model) {
     List<FileHistory> history = fileHistoryService.getFileHistory(fileId);
+
     model.addAttribute("history", history);
     model.addAttribute("fileId", fileId);
-    return "page/history";
+
+    return HISTORY_PAGE;
   }
 
   @GetMapping("/list/{fileId}")
   @ResponseBody
   public ResponseEntity<List<FileHistory>> getHistory(@PathVariable String fileId) {
     List<FileHistory> history = fileHistoryService.getFileHistory(fileId);
+    
     return ResponseEntity.ok()
             .contentType(MediaType.APPLICATION_JSON)
             .body(history);

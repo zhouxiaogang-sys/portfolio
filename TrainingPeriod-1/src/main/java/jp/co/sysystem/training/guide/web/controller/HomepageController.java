@@ -20,7 +20,8 @@ public class HomepageController {
   @Autowired
   public HomepageService homepageService;
 
-  public static final String HOME_PAGE = "page/homepage";
+  private static final String HOME_PAGE = "page/homepage";
+  
   private static final String CONTENT_FRAGMENT = "page/homepage :: content";
 
   @GetMapping("/")

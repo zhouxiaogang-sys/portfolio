@@ -1,0 +1,157 @@
+:root {
+    --ms-color-bg-default: #ffffff;
+    --ms-color-bg-secondary: #faf9f8;
+    --ms-color-border: #edebe9;
+    --ms-color-text-primary: #323130;
+    --ms-color-text-secondary: #605e5c;
+    --ms-color-addition: #107c10;
+    --ms-color-deletion: #a4262c;
+    --ms-color-bg-addition: #dff6dd;
+    --ms-color-bg-deletion: #fde7e9;
+    --ms-border-radius: 4px;
+    --ms-font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    --ms-font-mono: 'Cascadia Code', Consolas, 'Courier New', monospace;
+}
+
+.diff-header {
+    padding: 16px 20px;
+    background-color: var(--ms-color-bg-secondary);
+    border: 1px solid var(--ms-color-border);
+    border-radius: var(--ms-border-radius);
+    font-family: var(--ms-font-family);
+    margin-bottom: -1px;
+}
+
+.file-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.file-name {
+    font-weight: 600;
+    color: var(--ms-color-text-primary);
+    font-size: 14px;
+}
+
+.file-stats {
+    font-size: 12px;
+    color: var(--ms-color-text-secondary);
+}
+
+.additions {
+    color: var(--ms-color-addition);
+    margin-right: 12px;
+}
+
+.deletions {
+    color: var(--ms-color-deletion);
+}
+
+.stat-bar {
+    display: flex;
+    height: 4px;
+    background-color: var(--ms-color-border);
+    border-radius: 2px;
+    overflow: hidden;
+    margin-top: 8px;
+}
+
+.stat-addition {
+    background-color: var(--ms-color-addition);
+}
+
+.stat-deletion {
+    background-color: var(--ms-color-deletion);
+}
+
+.diff-content {
+    border: 1px solid var(--ms-color-border);
+    border-radius: 0 0 var(--ms-border-radius) var(--ms-border-radius);
+    font-family: var(--ms-font-mono);
+    font-size: 13px;
+    line-height: 20px;
+    background-color: var(--ms-color-bg-default);
+}
+
+.diff-line {
+    display: flex;
+    border-bottom: 1px solid var(--ms-color-border);
+}
+
+.line-number {
+    width: 50px;
+    padding: 4px 12px;
+    color: var(--ms-color-text-secondary);
+    text-align: right;
+    border-right: 1px solid var(--ms-color-border);
+    background-color: var(--ms-color-bg-secondary);
+    user-select: none;
+}
+
+.line-content {
+    flex: 1;
+    padding: 4px 12px;
+    white-space: pre;
+    color: var(--ms-color-text-primary);
+}
+
+.diff-addition {
+    background-color: var(--ms-color-bg-addition);
+}
+
+.diff-addition .line-number {
+    background-color: #e6f2e6;
+    border-right-color: #c6e6c6;
+}
+
+.diff-deletion {
+    background-color: var(--ms-color-bg-deletion);
+}
+
+.diff-deletion .line-number {
+    background-color: #f8e8e9;
+    border-right-color: #eecfd1;
+}
+
+.diff-mark {
+    color: var(--ms-color-text-secondary);
+    margin-right: 8px;
+    user-select: none;
+}
+
+.diff-addition .diff-mark {
+    color: var(--ms-color-addition);
+}
+
+.diff-deletion .diff-mark {
+    color: var(--ms-color-deletion);
+}
+
+.diff-chunk {
+    border-bottom: 1px solid var(--ms-color-border);
+}
+
+.chunk-header {
+    background-color: var(--ms-color-bg-secondary);
+    color: var(--ms-color-text-secondary);
+    padding: 8px 12px;
+    font-family: var(--ms-font-mono);
+    font-size: 12px;
+    user-select: none;
+}
+
+/* 微软风格的阴影效果 */
+.diff-header {
+    box-shadow: 0 1.6px 3.6px rgba(0,0,0,0.13), 0 0.3px 0.9px rgba(0,0,0,0.1);
+}
+
+/* 微软风格的动画效果 */
+.diff-line {
+    transition: background-color 0.1s ease-out;
+}
+
+.diff-line:hover {
+    background-color: rgba(0,0,0,0.02);
+}

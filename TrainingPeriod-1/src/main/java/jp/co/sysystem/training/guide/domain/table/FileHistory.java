@@ -20,7 +20,7 @@ public class FileHistory {
   private String fileId;
   private String content;
   private String commitMessage;
-  private String author;
+  private String editor;
   private LocalDateTime createTime;
   private String version;
 

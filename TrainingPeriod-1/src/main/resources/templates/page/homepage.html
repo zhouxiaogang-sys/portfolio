@@ -4,8 +4,9 @@
 <head>
   <meta charset="UTF-8">
 
-  <link rel="stylesheet" th:href="@{/css/markdown-webstorm.css}">
   <link rel="stylesheet" th:href="@{/css/homepage.css}">
+  <link rel="stylesheet" th:href="@{/css/markdown.css}">
+
 
   <title>研修期間各手順書</title>
   <style>
@@ -19,6 +20,7 @@
     <div class="sidebar">
 
       <div class="task-section">
+
         <div class="task-header task-A" onclick="toggleSection(this)">
           <i class="ms-Icon ms-Icon--Document"></i>
           <span>A課題</span>
@@ -30,9 +32,7 @@
             </a>
           </div>
         </div>
-      </div>
 
-      <div class="task-section">
         <div class="task-header task-B" onclick="toggleSection(this)">
           <i class="ms-Icon ms-Icon--Document"></i>
           <span>B課題</span>
@@ -44,9 +44,7 @@
             </a>
           </div>
         </div>
-      </div>
 
-      <div class="task-section">
         <div class="task-header task-Spring" onclick="toggleSection(this)">
           <i class="ms-Icon ms-Icon--Document"></i>
           <span>SpringBoot課題</span>
@@ -102,7 +100,24 @@
     </div>
   </div>
 
-  <button class="back-to-top" type="button">トップ</button>
+  <button class="back-to-top" type="button" aria-label="トップへ戻る">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+      <path
+              d="M12 4 L3 13 L6 13 L12 7 L18 13 L21 13 Z"
+              fill="currentColor"
+              stroke="none"
+      />
+      <line
+              x1="3"
+              y1="20"
+              x2="21"
+              y2="20"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+      />
+    </svg>
+  </button>
 
   <script th:inline="javascript">
 
@@ -147,10 +162,9 @@
       } else {
         window.location.href = "/management";
       }
-
-
     }
 
+    /*ログインキャンセル*/
     function closeLogin() {
       document.getElementById('loginModal').style.display = 'none';
     }
