@@ -1,0 +1,140 @@
+/* Main Content: Tabs */
+.tabs {
+    display: flex;
+    gap: 2px;
+    margin-bottom: 2rem;
+    border-bottom: 2px solid var(--ms-light-gray);
+}
+
+.tab {
+    padding: 0.75rem 1.5rem;
+    cursor: pointer;
+    font-size: 16px;
+    color: var(--ms-gray);
+    background: transparent;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -2px;
+}
+
+.tab:hover {
+    color: var(--ms-blue);
+}
+
+.tab.active {
+    color: var(--ms-blue);
+    border-bottom: 2px solid var(--ms-blue);
+}
+
+/* Tab Content */
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/* Main Content: File List */
+.file-name {
+    margin-left: 1rem;
+    margin-bottom: 1rem;
+    min-width: 360px;
+    width: 65%;
+    background: #ffffff;
+    border-radius: var(--ms-border-radius);
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.4);
+}
+
+.content-link {
+    display: block;
+    padding: 0.75rem;
+    color: var(--ms-dark-gray);
+    text-decoration: none;
+    font-size: 16px;
+    border-radius: var(--ms-border-radius);
+    transition: background-color 0.2s ease;
+    min-width: 360px;
+}
+
+.content-link:hover {
+    background-color: var(--ms-light-gray);
+    color: var(--ms-blue);
+    min-width: 360px;
+}
+
+.file-detail {
+    width: 100%;
+    position: relative;
+    display: none;
+    background-color: var(--ms-white);
+    /*padding: 1rem;*/
+    margin: 0.5rem 0;
+    border-radius: var(--ms-border-radius);
+    min-width: 360px;
+    /*overflow: hidden;*/
+    /*transition: max-height 0.3s ease-out;*/
+    /*max-height: 0;*/
+}
+
+.details-container {
+    display: grid;
+    gap: 12px;
+    margin-bottom: 1rem;
+    min-width: 360px;
+}
+
+.details-row {
+    padding-left: 1.5rem;
+    padding-bottom: 0.2rem;
+    display: flex;
+    margin-bottom: 0.3rem;
+    font-size: 14px;
+}
+
+.details-row label {
+    width: 100px;
+    color: var(--ms-gray);
+}
+
+.details-row .details {
+    color: var(--ms-dark-gray);
+}
+
+/* Main Content: File List: Buttons */
+.delete-button,
+.edit-button,
+.history-button {
+    align-items: center;
+    position: absolute;
+    right: 15px;
+    box-shadow: var(--ms-shadow);
+    background-color: transparent;
+    border: 1px solid var(--ms-blue);
+    color: var(--ms-blue);
+    padding: 0.5rem 0.6rem;
+    margin: 0.5rem 0;
+    border-radius: var(--ms-border-radius);
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.2s ease;
+}
+
+.edit-button {
+    top: 0;
+}
+
+.history-button {
+    top: 50px;
+}
+
+.delete-button {
+    width: 89.27px;
+    top: 100px;
+}
+
+.edit-button:hover,
+.history-button:hover,
+.delete-button:hover {
+    background-color: var(--ms-blue);
+    color: var(--ms-white);
+}

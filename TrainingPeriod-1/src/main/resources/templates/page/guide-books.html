@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+
+  <link th:href="@{/css/guide-books/guide-books.css}" rel="stylesheet">
+  <link th:href="@{/css/guide-books/markdown.css}" rel="stylesheet">
+
+  <title>研修期間各手順書</title>
+</head>
+<body>
+  <div class="layout">
+
+    <div class="sidebar">
+
+      <div class="task-section">
+        <div class="task-header task-A" onclick="toggleSection(this)">
+          <i class="ms-Icon ms-Icon--Document"></i>
+          <span>A課題</span>
+        </div>
+        <div class="task-content">
+          <div class="each-content" th:each="doc : ${markdowns}" th:if="${doc.task == 'A' && doc.isDeleted ==false}">
+            <a class="content-link" th:data-file-id="${doc.fileId}" th:text="${doc.fileName}"
+              onclick="loadContent(this.getAttribute('data-file-id')); return false;">
+            </a>
+          </div>
+        </div>
+
+        <div class="task-header task-B" onclick="toggleSection(this)">
+          <i class="ms-Icon ms-Icon--Document"></i>
+          <span>B課題</span>
+        </div>
+        <div class="task-content">
+          <div class="each-content" th:each="doc : ${markdowns}" th:if="${doc.task == 'B' && doc.isDeleted ==false}">
+            <a class="content-link" th:data-file-id="${doc.fileId}" th:text="${doc.fileName}"
+              onclick="loadContent(this.getAttribute('data-file-id')); return false;">
+            </a>
+          </div>
+        </div>
+
+        <div class="task-header task-Spring" onclick="toggleSection(this)">
+          <i class="ms-Icon ms-Icon--Document"></i>
+          <span>SpringBoot課題</span>
+        </div>
+        <div class="task-content">
+          <div class="each-content" th:each="doc : ${markdowns}" th:if="${doc.task == 'SpringBoot' && doc.isDeleted ==false}">
+            <a class="content-link" th:data-file-id="${doc.fileId}" th:text="${doc.fileName}"
+              onclick="loadContent(this.getAttribute('data-file-id')); return false;">
+            </a>
+          </div>
+        </div>
+<!--        <a href="https://syshd01-my.sharepoint.com/:b:/g/personal-->
+<!--        /public_git_syshd01_onmicrosoft_com/Eayq6w6NctZEgfyf_9i1fFIBNMsAj9k5B0jeHNEhfbWpGQ?e=bBckFc" target="_blank">-->
+<!--          查看 PDF-->
+<!--        </a>-->
+      </div>
+    </div>
+
+    <div class="main-content">
+      <div class="markdown-container">
+        <div id="content" th:fragment="content">
+          <div th:utext="${content}">
+            top
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <button class="back-to-top" type="button" aria-label="トップへ戻る">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+      <path
+              d="M12 4 L3 13 L6 13 L12 7 L18 13 L21 13 Z"
+              fill="currentColor"
+              stroke="none"
+      />
+      <line
+              x1="3"
+              y1="20"
+              x2="21"
+              y2="20"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+      />
+    </svg>
+  </button>
+  <script th:src="@{/js/guide-books/main.js}"></script>
+</body>
+
+</html>

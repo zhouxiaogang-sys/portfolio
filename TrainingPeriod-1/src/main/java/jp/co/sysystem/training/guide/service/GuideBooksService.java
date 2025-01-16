@@ -1,5 +1,6 @@
 package jp.co.sysystem.training.guide.service;
 
+import jp.co.sysystem.training.guide.domain.dto.GuideBookDTO;
 import jp.co.sysystem.training.guide.domain.repository.GuidesRepository;
 import jp.co.sysystem.training.guide.domain.table.MarkdownFile;
 
@@ -8,11 +9,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +22,7 @@ import com.vladsch.flexmark.parser.Parser;
 import com.vladsch.flexmark.util.data.MutableDataSet;
 
 @Service
-public class HomepageService {
+public class GuideBooksService {
 
   private final Parser parser;
   private final HtmlRenderer renderer;
@@ -30,12 +30,15 @@ public class HomepageService {
   private final String MD_DIR = "src/main/resources/markdown/";
 
   @Autowired
-  GuidesRepository grep;
+  private GuidesRepository grep;
+  
+  @Autowired
+  private ModelMapper modelMapper;
 
   /**
    *markdownレンダラーの初期化 
    */
-  public HomepageService() {
+  public GuideBooksService() {
     MutableDataSet options = new MutableDataSet();
     options.set(Parser.EXTENSIONS, Arrays.asList(TablesExtension.create()));
 
@@ -43,8 +46,11 @@ public class HomepageService {
     renderer = HtmlRenderer.builder(options).build();
   }
 
-  public List<MarkdownFile> showIndex() {
-    return grep.findAllByOrderBySortOrderAsc();
+  public List<GuideBookDTO> showIndex() {
+    List<MarkdownFile> results = grep.findAllByOrderBySortOrderAsc();
+    return results.stream()
+            .map(result -> modelMapper.map(result, GuideBookDTO.class))
+            .collect(Collectors.toList());
   }
 
   /**
@@ -61,7 +67,7 @@ public class HomepageService {
 
     Path filePath = Paths.get(MD_DIR + fileId + ".md");
     String markdown = Files.readString(filePath);
-    
+
     return renderer.render(parser.parse(markdown));
   }
 

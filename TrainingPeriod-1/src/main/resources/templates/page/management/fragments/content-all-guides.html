@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div th:fragment="content-all-guides">
+    <div class="content-header">
+        <h1>手順書一覧</h1>
+    </div>
+
+    <div class="tabs">
+        <div class="tab active" data-task="A">A課題</div>
+        <div class="tab" data-task="B">B課題</div>
+        <div class="tab" data-task="SpringBoot">SpringBoot課題</div>
+    </div>
+
+    <div class="task-content" id="content">
+        <!-- A課題表示 -->
+        <div id="A-content" class="tab-content active">
+            <div class="file-name" th:each="doc : ${markdowns}" th:if="${doc.task == 'A' && doc.isDeleted ==false}">
+                <a class="content-link" th:data-file-id="${doc.fileId}" th:text="${doc.fileName}"
+                   >
+                </a>
+
+                <div class="file-detail" th:id="${doc.fileId}">
+                    <div class="details-container">
+                        <div class="details-row">
+                            <label>ファイルID：</label>
+                            <span class="details" th:text="${doc.fileId}"></span>
+                        </div>
+                        <div class="details-row">
+                            <label>作成者：</label>
+                            <span class="details" th:text="${doc.author}"></span>
+                        </div>
+                        <div class="details-row">
+                            <label>作成時間：</label>
+                            <span class="details" th:text="${doc.uploadTime}"></span>
+                        </div>
+                        <div class="details-row">
+                            <label>編集時間：</label>
+                            <span class="details" th:text="${doc.updateTime}"></span>
+                        </div><br>
+                    </div>
+                    <div>
+                        <button class="edit-button" onclick="goToEditor(this)">+ 内容編集</button>
+                    </div>
+                    <div>
+                        <button class="history-button" onclick="goToHistory(this)">+ 編集履歴</button>
+                    </div>
+                    <div>
+                        <button class="delete-button">- 削除</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- B課題表示 -->
+        <div id="B-content" class="tab-content">
+            <div class="file-name" th:each="doc : ${markdowns}" th:if="${doc.task == 'B' && doc.isDeleted ==false}">
+
+                <a class="content-link" th:data-file-id="${doc.fileId}" th:text="${doc.fileName}"
+                   onclick="toggleSection(this)">
+                </a>
+
+                <div class="file-detail" th:id="${doc.fileId}">
+                    <div class="details-container">
+                        <div class="details-row">
+                            <label>ファイルID：</label>
+                            <span class="details" th:text="${doc.fileId}"></span>
+                        </div>
+                        <div class="details-row">
+                            <label>作成者：</label>
+                            <span class="details" th:text="${doc.author}"></span>
+                        </div>
+                        <div class="details-row">
+                            <label>作成時間：</label>
+                            <span class="details" th:text="${doc.uploadTime}"></span>
+                        </div>
+                        <div class="details-row">
+                            <label>編集時間：</label>
+                            <span class="details" th:text="${doc.updateTime}"></span>
+                        </div><br>
+                    </div>
+                    <div>
+                        <button class="edit-button" onclick="goToEditor(this)">+ 内容編集</button>
+                    </div>
+                    <div>
+                        <button class="history-button" onclick="goToHistory(this)">+ 編集履歴</button>
+                    </div>
+                    <div>
+                        <button class="delete-button">- 削除</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SpringBoot課題表示 -->
+        <div id="SpringBoot-content" class="tab-content">
+            <div class="file-name" th:each="doc : ${markdowns}" th:if="${doc.task == 'SpringBoot' && doc.isDeleted ==false}">
+                <a class="content-link" th:data-file-id="${doc.fileId}" th:text="${doc.fileName}"
+                   onclick="toggleSection(this)">
+                </a>
+
+                <div class="file-detail" th:id="${doc.fileId}">
+                    <div class="details-container">
+                        <div class="details-row">
+                            <label>ファイルID：</label>
+                            <span class="details" th:text="${doc.fileId}"></span>
+                        </div>
+                        <div class="details-row">
+                            <label>作成者：</label>
+                            <span class="details" th:text="${doc.author}"></span>
+                        </div>
+                        <div class="details-row">
+                            <label>作成時間：</label>
+                            <span class="details" th:text="${doc.uploadTime}"></span>
+                        </div>
+                        <div class="details-row">
+                            <label>編集時間：</label>
+                            <span class="details" th:text="${doc.updateTime}"></span>
+                        </div>
+                        <br>
+                    </div>
+                    <div>
+                        <button class="edit-button" onclick="goToEditor(this)">+ 内容編集</button>
+                    </div>
+                    <div>
+                        <button class="history-button" onclick="goToHistory(this)">+ 編集履歴</button>
+                    </div>
+                    <div>
+                        <button class="delete-button">- 削除</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

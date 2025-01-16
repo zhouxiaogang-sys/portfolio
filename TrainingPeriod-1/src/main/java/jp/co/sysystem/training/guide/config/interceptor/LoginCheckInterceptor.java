@@ -7,6 +7,7 @@ import org.springframework.web.servlet.ModelAndView;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import jp.co.sysystem.training.guide.exception.UnauthorizedException;
 
 @Component
 public class LoginCheckInterceptor implements HandlerInterceptor {
@@ -23,20 +24,27 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
    */
   @Override
   public boolean preHandle(HttpServletRequest request,
-      HttpServletResponse response,
-      Object handler) throws Exception {
+          HttpServletResponse response,
+          Object handler) throws Exception {
     // セッションからユーザーIDを取得
     HttpSession session = request.getSession();
     String username = (String) session.getAttribute("username");
 
     // 未ログインの場合、ログイン画面へリダイレクト
     if (username == null) {
-      response.sendRedirect("/");
-      return false;
+      if (isAjaxRequest(request)) {
+        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        return false;
+      } else {
+        throw new UnauthorizedException("ログインされてない");
+      }
     }
-
     return true;
   }
+  
+  private boolean isAjaxRequest(HttpServletRequest request) {
+    return "XMLHttpRequest".equals(request.getHeader("X-Requested-With"));
+}
 
   /**
    * コントローラーの処理が完了した後、ビュー描画前に呼び出されるメソッド
@@ -50,9 +58,9 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
    */
   @Override
   public void postHandle(HttpServletRequest request,
-      HttpServletResponse response,
-      Object handler,
-      ModelAndView modelAndView) throws Exception {
+          HttpServletResponse response,
+          Object handler,
+          ModelAndView modelAndView) throws Exception {
     // ModelAndViewが存在する場合のみ処理を実行
     if (modelAndView != null) {
       // セッションからユーザー情報を取得
@@ -81,9 +89,9 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
    */
   @Override
   public void afterCompletion(HttpServletRequest request,
-      HttpServletResponse response,
-      Object handler,
-      Exception ex) {
+          HttpServletResponse response,
+          Object handler,
+          Exception ex) {
     // 後処理が必要な場合はここに実装
   }
 }

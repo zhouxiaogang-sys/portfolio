@@ -9,31 +9,34 @@ import jakarta.persistence.PreUpdate;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Entity
 @Table(name = "markdown_file")
+@NoArgsConstructor
+@AllArgsConstructor
 public class MarkdownFile implements Serializable {
-    private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
-    
-    private int fileNo;
-    
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String fileId;
-    
-    private String fileName;
-    private String task;
-    private int sortOrder;
-    private String author;
-    private LocalDateTime uploadTime;
-    private LocalDateTime updateTime;
-    private Boolean isDeleted;
-    
-    @PreUpdate
-    protected void onUpdate() {
-      updateTime = LocalDateTime.now();
-    }
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private int fileNo;
+
+  private String fileId;
+
+  private String fileName;
+  private String task;
+  private int sortOrder;
+  private String author;
+  private LocalDateTime uploadTime;
+  private LocalDateTime updateTime;
+  private Boolean isDeleted;
+
+  @PreUpdate
+  protected void onUpdate() {
+    updateTime = LocalDateTime.now();
+  }
 }

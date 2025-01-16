@@ -2,18 +2,15 @@ package jp.co.sysystem.training.guide.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import jp.co.sysystem.training.guide.domain.repository.GuidesRepository;
 import jp.co.sysystem.training.guide.domain.table.MarkdownFile;
+import jp.co.sysystem.training.guide.exception.NotFoundException;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -40,10 +37,51 @@ public class EditorService {
     }
   }
 
-  public String findNameById(String fileId) {
-    Optional<MarkdownFile> optionalFile = grep.findById(fileId);
-    String fileName = optionalFile.map(MarkdownFile::getFileName).orElse(null);
-    return fileName;
+  /**
+   * ファイルIDによってMarkdownファイルオブジェクトを検索する
+   * 
+   * @param fileId ファイルID
+   * @return 該当のMarkdownファイルオブジェクト
+   * @throws IllegalArgumentException fileIdがnullまたは空の場合にスロー
+   * @throws NotFoundException 該当ファイルが見つからない場合にスロー
+   */
+  public MarkdownFile findObjectByFileId(String fileId) {
+    try {
+      if (fileId == null || fileId.trim().isEmpty()) {
+        throw new IllegalArgumentException("ファイルIDを指定してください");
+      }
+      MarkdownFile file = grep.findByFileId(fileId);
+      if (file == null) {
+        throw new NotFoundException("ID: " + fileId + "のファイルが見つかりません");
+      }
+      return file;
+    } catch (Exception e) {
+      throw e;
+    }
+
+  }
+
+  /**
+   * ファイル番号によってMarkdownファイルオブジェクトを検索する
+   * 
+   * @param fileNo ファイル番号
+   * @return 該当のMarkdownファイルオブジェクト
+   * @throws IllegalArgumentException fileNoが0以下の場合にスロー
+   * @throws NotFoundException 該当ファイルが見つからない場合にスロー
+   */
+  public MarkdownFile findObjectByNo(int fileNo) {
+    try {
+      if (fileNo <= 0) {
+        throw new IllegalArgumentException("ファイル番号は1以上を指定してください");
+      }
+      MarkdownFile file = grep.findByFileNo(fileNo);
+      if (file == null) {
+        throw new NotFoundException("番号: " + fileNo + " のファイルが見つかりません");
+      }
+      return file;
+    } catch (Exception e) {
+      throw e;
+    }
   }
 
   /**
@@ -78,26 +116,4 @@ public class EditorService {
     }
   }
 
-  /**
-   * // ファイルを保存するメソッド
-   * @param filename
-   * @param content
-   */
-  @Transactional
-  public void saveFile(String fileId, String content) {
-    // ファイルの保存
-    try {
-      grep.updateUpdateTimeByFileId(fileId, LocalDateTime.now());
-      
-      if (!fileId.endsWith(".md")) {
-        fileId += ".md";
-      }
-      Path path = Paths.get(MD_DIR, fileId);
-      Files.writeString(path, content);
-      
-      
-    } catch (IOException e) {
-      throw new RuntimeException("保存失敗", e);
-    }
-  }
 }

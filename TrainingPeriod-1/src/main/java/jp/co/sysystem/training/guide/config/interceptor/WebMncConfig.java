@@ -14,27 +14,29 @@ public class WebMncConfig implements WebMvcConfigurer {
   @Override
   public void addInterceptors(InterceptorRegistry registry) {
     registry.addInterceptor(loginCheckInterceptor)
-        .addPathPatterns("/**")
-        .excludePathPatterns(
-            "/",
-            "/homepage",
-            "/login",
-            "/login/process",
-            "/static/**",
-            "/content/**",
-            "/resources/**",  
-            "/webjars/**",   
-            "/markdown/**",
-            "/css/**",
-            "/template/**",
-            "/js/**",
-            "/images/**",
-            "/error",
-            "/**/*.css",
-            "/**/*.md", 
-            "/**/*.js",     
-            "/**/*.png",   
-            "/**/*.jpg",    
-            "/**/*.jpeg");
+            .addPathPatterns("/**")
+            .excludePathPatterns(
+                    "/",
+                    "/guide-books",
+                    "/index",
+                    "/tasks",
+                    "/login",
+                    "/login/process",
+                    "/static/**",
+                    "/content/**",
+                    "/resources/**",
+                    "/webjars/**",
+                    "/markdown/**",
+                    "/css/**",
+                    "/template/**",
+                    "/js/**",
+                    "/images/**",
+                    "/error",
+                    "/**/*.css",
+                    "/**/*.md",
+                    "/**/*.js",
+                    "/**/*.png",
+                    "/**/*.jpg",
+                    "/**/*.jpeg");
   }
 }

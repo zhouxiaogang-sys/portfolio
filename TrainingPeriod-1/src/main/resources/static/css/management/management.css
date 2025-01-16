@@ -8,7 +8,7 @@
     --ms-white: #ffffff;
     --ms-black: #000000;
     --ms-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    --ms-border-radius: 2px;
+    --ms-border-radius: 4px;
 }
 
 html {
@@ -54,7 +54,7 @@ body {
 .menu-icon img {
     width: 35px;
     height: 35px;
-    display: block; /* 确保图片正确显示 */
+    display: block;
 }
 
 .logo {
@@ -62,7 +62,6 @@ body {
     font-weight: 600;
     color: var(--ms-blue);
     margin-left: 1rem;
-    /*margin-top: 2px;*/
 }
 
 .user-controls {
@@ -74,21 +73,11 @@ body {
     gap: 1rem;
 }
 
-.user-name {
-    position: fixed;
-    margin-top: 5px;
-    font-size: 14px;
-    align-items: center;
-    color: var(--ms-gray);
-    top: 10px;
-    right: 155px;
-    padding: 6px 20px;
-    border-radius: 35px;
-    border: #106EBE solid 1px;
-    display: inline-block;
-}
 
+.user-name,
 .logout-button {
+    width: 98px;
+    height: 33px;
     background-color: transparent;
     border: 1px solid var(--ms-blue);
     color: var(--ms-blue);
@@ -98,10 +87,18 @@ body {
     font-size: 14px;
     transition: all 0.2s ease;
     position: fixed;
-    right: 35px;
     top: 15px;
-    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.3);
     display: inline-block;
+}
+
+.logout-button {
+    right: 35px;
+    box-shadow: var(--ms-shadow);
+}
+
+.user-name {
+    position: fixed;
+    right: 155px;
 }
 
 .logout-button:hover {
@@ -134,8 +131,7 @@ body {
     border-radius: 4px;
 }
 
-.sidebar-item#toHomepage {
-    margin-top: 35px;
+.homepage-button {
     margin-left: 32px;
     background-color: transparent;
     border: 1px solid var(--ms-blue);
@@ -145,11 +141,11 @@ body {
     cursor: pointer;
     font-size: 16px;
     transition: all 0.2s ease;
-    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.3);
+    box-shadow: var(--ms-shadow);
     display: inline-block;
 }
 
-.sidebar-item#toHomepage:hover {
+.homepage-button:hover {
     background-color: var(--ms-blue);
     color: var(--ms-white);
 }
@@ -170,146 +166,13 @@ body {
 }
 
 .content-header h1 {
-    font-size: 28px;
-    font-weight: 600;
-    margin-bottom: 2rem;
-    color: var(--ms-dark-gray);
+    font-size: 24px;
+    color: #2c3e50;
+    padding: 10px 15px;
+    margin-bottom: 20px;
+    border-left: 4px solid #3498db;
+    background-color: #f8f9fa;
 }
-
-/* Main Content: Tabs */
-.tabs {
-    display: flex;
-    gap: 2px;
-    margin-bottom: 2rem;
-    border-bottom: 2px solid var(--ms-light-gray);
-}
-
-.tab {
-    padding: 0.75rem 1.5rem;
-    cursor: pointer;
-    font-size: 16px;
-    color: var(--ms-gray);
-    background: transparent;
-    border-bottom: 2px solid transparent;
-    margin-bottom: -2px;
-}
-
-.tab:hover {
-    color: var(--ms-blue);
-}
-
-.tab.active {
-    color: var(--ms-blue);
-    border-bottom: 2px solid var(--ms-blue);
-}
-
-/* Tab Content */
-.tab-content {
-    display: none;
-}
-
-.tab-content.active {
-    display: block;
-}
-
-/* Main Content: File List */
-.file-name {
-    margin-left: 1rem;
-    margin-bottom: 1rem;
-    min-width: 360px;
-    width: 65%;
-    background: #ffffff;
-    border-radius: var(--ms-border-radius);
-    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.4);
-}
-
-.content-link {
-    display: block;
-    padding: 0.75rem;
-    color: var(--ms-dark-gray);
-    text-decoration: none;
-    font-size: 16px;
-    border-radius: var(--ms-border-radius);
-    transition: background-color 0.2s ease;
-    min-width: 360px;
-}
-
-.content-link:hover {
-    background-color: var(--ms-light-gray);
-    color: var(--ms-blue);
-    min-width: 360px;
-}
-
-.file-detail {
-    width: 100%;
-    position: relative;
-    display: none;
-    background-color: var(--ms-white);
-    /*padding: 1rem;*/
-    margin: 0.5rem 0;
-    border-radius: var(--ms-border-radius);
-    min-width: 360px;
-    overflow: hidden;
-    transition: max-height 0.3s ease-out;
-    max-height: 0;
-}
-
-.details-container {
-    display: grid;
-    gap: 12px;
-    margin-bottom: 1rem;
-    min-width: 360px;
-}
-
-.details-row {
-    padding-left: 1.5rem;
-    padding-bottom: 0.2rem;
-    display: flex;
-    margin-bottom: 0.3rem;
-    font-size: 14px;
-}
-
-.details-row label {
-    width: 100px;
-    color: var(--ms-gray);
-}
-
-.details-row .details {
-    color: var(--ms-dark-gray);
-}
-
-/* Main Content: File List: Buttons */
-.edit-button,
-.history-button {
-    align-items: center;
-    position: absolute;
-    right: 15px;
-    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.3);
-    background-color: transparent;
-    border: 1px solid var(--ms-blue);
-    color: var(--ms-blue);
-    padding: 0.5rem 1rem;
-    margin: 0.5rem 0;
-    border-radius: var(--ms-border-radius);
-    cursor: pointer;
-    font-size: 14px;
-    transition: all 0.2s ease;
-}
-
-.edit-button {
-    top: 0;
-}
-
-.history-button {
-    top: 55px;
-}
-
-.edit-button:hover,
-.history-button:hover {
-    background-color: var(--ms-blue);
-    color: var(--ms-white);
-}
-
 
 /* Responsive Design */
 @media (max-width: 768px) {

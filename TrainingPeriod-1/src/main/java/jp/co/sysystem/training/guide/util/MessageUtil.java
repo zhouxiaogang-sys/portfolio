@@ -159,7 +159,7 @@ public class MessageUtil {
       String messageId, String resourceFieldId, Object[] messsageArgs) {
     Object[] msgArgs = null;
 
-    if (!StringUtils.isEmpty(resourceFieldId)) {
+    if (!StringUtils.hasText(resourceFieldId)) {
       msgArgs = new Object[] {
           new DefaultMessageSourceResolvable(new String[] { resourceFieldId }, null, null)
       };

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <title>研修用書類管理</title>
+    <link rel="stylesheet" th:href="@{/css/management/management.css}">
+    <link rel="stylesheet" th:href="@{/css/management/content-all-guides.css}">
+    <link rel="stylesheet" th:href="@{/css/management/content-register-guide.css}">
+</head>
+
+<body>
+<div class="layout">
+    <nav class="top-nav">
+        <div class="menu-icon">
+            <img th:src="@{/images/icons/management-icon.png}"
+                 width="35"
+                 height="35"
+                 alt="">
+        </div>
+        <div class="logo">研修用書類管理</div>
+
+        <button class="homepage-button" id="toHomepage" onclick="goToHomepage()">研修用ページへ</button>
+        <div class="user-controls">
+            <button class="user-name" th:text="${username}">username</button>
+            <button class="logout-button" onclick="logout()">ログアウト</button>
+        </div>
+    </nav>
+
+    <div class="sidebar">
+        <br>
+        <br>
+        <div class="sidebar-item" onclick="loadContent('content-all-guides')">手順書一覧</div>
+        <div class="sidebar-item" onclick="loadContent('content-register-guide')">手順書新規登録</div>
+        <div class="sidebar-item">課題一覧（作成中）</div>
+        <div class="sidebar-item">課題新規登録</div>
+        <div class="sidebar-item">研修生サポーター管理</div>
+    </div>
+
+    <div class="main-content">
+        <div th:if="${msg != null}" th:text="${msg}"></div>
+        <div id="mainContent">
+            <div th:replace="page/management/fragments/content-all-guides::content-all-guides"></div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="/js/management/main.js"></script>
+<script src="/js/management/modal.js"></script>
+
+
+<script>
+    function goToHomepage() {
+        window.open(`/`);
+    }
+
+    function logout() {
+        window.location.href = `/logout`;
+    }
+</script>
+</body>
+
+</html>

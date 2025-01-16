@@ -1,100 +1,89 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="ja">
 
 <head>
-  <title>Markdown Editor</title>
-  <meta charset="UTF-8">
-  <link rel="icon" href="data:,">
-  <link href="/css/bootstrap.min.css" rel="stylesheet">
-  <link href="/lib/codemirror/codemirror.min.css" rel="stylesheet">
-  <link href="/lib/codemirror/theme/vscode-dark.css" rel="stylesheet">
-  <style>
-    html, body {
-      height: 100%;
-      margin: 0;
-      overflow: hidden;
-    }
-    .container-fluid {
-      height: 100%;
-    }
-    .row {
-      height: calc(100% - 2rem);
-    }
-    .col-12 {
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-    }
-  </style>
+    <title>Markdown Editor</title>
+    <meta charset="UTF-8">
+    <link rel="icon" href="data:,">
+    <link href="/lib/codemirror/codemirror.min.css" rel="stylesheet">
+    <link href="/lib/codemirror/theme/vscode-dark.css" rel="stylesheet">
+    <link href="/css/editor/editor.css" rel="stylesheet">
 </head>
 
-<body style="overflow: hidden">
-  <div class="container-fluid">
-    <div class="row mt-3">
-      <div class="col-12">
-        <div class="d-flex justify-content-between align-items-center mb-3">
-          <h1>編集: <span th:text="${fileName}"></span></h1>
-          <input type="hidden" id="fileId" th:value="${fileId}">
-          <div>
-            <button id="saveBtn" class="btn btn-primary">保存</button>
-            <a href="/management" class="btn btn-secondary">back</a>
-          </div>
+<body>
+<div class="container-fluid">
+    <div class="editor-card">
+        <div class="editor-header">
+            <div class="header-title">
+                <h1 class="title-text">編集: <span th:text="${editObject.fileName}"></span></h1>
+                <input type="hidden" id="fileNo" th:value="${editObject.fileNo}">
+                <div class="button-container">
+                    <button id="save" class="save-button">保存</button>
+                    <button id="close" class="close-button" onclick="window.close()">閉じる</button>
+                </div>
+            </div>
+
+            <div class="property-card">
+                <div class="details-container">
+                    <div class="details-row">
+                        <label>
+                            <span>ファイルID：</span>
+                            <input class="details" id="fileId" th:value="${editObject.fileId}">
+                            <span id="fileId--error" class="error"></span>
+                        </label>
+                        <label>
+                            <span>ファイル名：</span>
+                            <input class="details" id="fileName" th:value="${editObject.fileName}">
+                            <span id="fileName--error" class="error"></span>
+                        </label>
+                    </div>
+
+                    <div class="details-row">
+                        <div class="task-selection">
+                            <label>
+                                <span>所属課題：</span>
+                                <select id="task" name="task">
+                                    <option th:value="${editObject.task}" th:text="${editObject.task}"></option>
+                                    <option value="A">A</option>
+                                    <option value="B">B</option>
+                                    <option value="SpringBoot">SpringBoot</option>
+                                </select><br>
+                                <span id="task--error" class="error"></span>
+                            </label>
+                        </div>
+                        <label>
+                            <span>順番：</span>
+                            <input class="details" id="sortOrder" type="number" th:value="${editObject.sortOrder}">
+                            <span id="sortOrder--error" class="error"></span>
+                        </label>
+
+                    </div>
+
+                    <div class="details-row">
+                        <label>
+                            <span>作成者：</span>
+                            <input class="details" id="author" th:value="${editObject.author}">
+                            <span id="author--error" class="error"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
         </div>
-        <textarea id="editor" th:text="${content}"></textarea>
-      </div>
+
+        <div class="editor-content">
+            <textarea id="editor" th:text="${content}"></textarea>
+        </div>
     </div>
-  </div>
+</div>
 
-  <script src="/lib/codemirror/codemirror.min.js"></script>
-  <script src="/lib/codemirror/mode/markdown/markdown.min.js"></script>
-  <script>
-    // エディター初期化
-    var editor = CodeMirror.fromTextArea(document.getElementById("editor"), {
-      mode: 'markdown',
-      theme: 'dark',
-      lineNumbers: true,
-      lineWrapping: true,
-      height: "auto"
-    });
-    editor.setSize("100%", "calc(100% - 60px)");
+<script src="/lib/codemirror/codemirror.min.js"></script>
+<script src="/lib/codemirror/mode/markdown/markdown.min.js"></script>
+<script src="/js/editor/main.js"></script>
 
-    // セーブ機能
-    document.getElementById("saveBtn").addEventListener("click", function () {
-      const commitMessasge = window.prompt("コミットメッセージを入力してください：");
-      if (commitMessasge === null) {
-        return;
-      }
-
-      const content = editor.getValue();
-      const fileId = document.getElementById("fileId").value;
-
-      const jsonData = {
-        fileId: fileId,
-        content: content,
-        commitMessage: commitMessasge,
-      }
-
-      fetch("/save", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(jsonData)
-      })
-        .then(response => {
-          if (!response.ok) {
-            throw new Error('Network response was not ok')
-          }
-          return response.json();
-        })
-        .then(result => {
-          alert("保存成功");
-        })
-        .catch(error => {
-          alert("保存失敗：" + error);
-        });
-    });
-  </script>
+<script>
+    function closeWindow() {
+        window.close();
+    }
+</script>
 </body>
-
 </html>

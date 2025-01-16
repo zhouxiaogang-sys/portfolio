@@ -12,11 +12,17 @@ import org.springframework.stereotype.Repository;
 import jp.co.sysystem.training.guide.domain.table.MarkdownFile;
 
 @Repository
-public interface GuidesRepository extends JpaRepository<MarkdownFile, String> {
+public interface GuidesRepository extends JpaRepository<MarkdownFile, Integer> {
+
+  MarkdownFile findByFileNo(int fileNo);
+
+  MarkdownFile findByFileId(String fileId);
+
   List<MarkdownFile> findAllByOrderBySortOrderAsc();
-  
+
   @Modifying
   @Query("UPDATE MarkdownFile f SET f.updateTime = :updateTime WHERE f.fileId = :fileId")
-  int updateUpdateTimeByFileId(@Param("fileId") String fileId, @Param("updateTime") LocalDateTime updateTime);
+  int updateUpdateTimeByFileId(@Param("fileId") String fileId,
+          @Param("updateTime") LocalDateTime updateTime);
 
 }

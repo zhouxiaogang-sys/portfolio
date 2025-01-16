@@ -103,33 +103,33 @@ html {
   align-items: center;
   justify-content: center;
   padding: 10px;
-  z-index: 1200;
+  z-index: 888;
 }
 
-.edit-button {
-  padding: 12px 60px;
-  background-color: rgb(0, 128, 255);
-  color: white;
-  border: none;
-  border-radius: 35px;
-  cursor: pointer;
-  font-size: 15px;
-  align-items: center;
-  position: fixed;
-  bottom: 30px;
-  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1);
-}
+/*.edit-button {*/
+/*  padding: 12px 60px;*/
+/*  background-color: rgb(0, 128, 255);*/
+/*  color: white;*/
+/*  border: none;*/
+/*  border-radius: 35px;*/
+/*  cursor: pointer;*/
+/*  font-size: 15px;*/
+/*  align-items: center;*/
+/*  position: fixed;*/
+/*  bottom: 30px;*/
+/*  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1);*/
+/*}*/
 
-.edit-button:hover {
-  background-color: rgb(0, 107, 215);
-}
+/*.edit-button:hover {*/
+/*  background-color: rgb(0, 107, 215);*/
+/*}*/
 
 /* link様式 */
 .task-content a {
   padding: 5px 12px;
   margin: 2px 0;
   line-height: 1.5;
-  height: 36px;
+  height: 45px;
   box-sizing: border-box;
   display: flex;
   align-items: center;
